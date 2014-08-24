@@ -1,0 +1,8 @@
+
+# This shakefile is parsed by shotodol make module 
+
+onLoad:
+	module -load ../../../../shotodol/core/script/dynalib.so
+	module -load ../../../web/cgi/dynalib.so
+	rehash
+

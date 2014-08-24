@@ -1,0 +1,5 @@
+shotodol.bin
+build/.config.mk
+build/Makevars.mk
+docs/Doxyfile
+/Makefile
