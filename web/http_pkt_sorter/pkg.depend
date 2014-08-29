@@ -1,0 +1,4 @@
+libs/plugin
+core/base
+-SHOTODOL_NET_HOME
+OS_PLATFORM/platform_net

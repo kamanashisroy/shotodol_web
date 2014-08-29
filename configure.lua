@@ -45,9 +45,14 @@ local ahome = string.gsub(configLines["PROJECT_HOME"],"shotodol_web$","aroop")
 configLines["VALA_HOME"] = prompt("Aroop path " .. ahome .. " > ", ahome)
 local shotohome = string.gsub(configLines["PROJECT_HOME"],"shotodol_web$","shotodol")
 configLines["SHOTODOL_HOME"] = prompt("Shotodol path " .. shotohome .. " > ", shotohome)
+local shoto_net_home = string.gsub(configLines["PROJECT_HOME"],"shotodol_web$","shotodol_net")
+configLines["SHOTODOL_NET_HOME"] = prompt("Shotodol net path " .. shoto_net_home .. " > ", shoto_net_home)
 configLines["CFLAGS+"] = ""
 configLines["VALAFLAGS+"] = ""
 
+if yes_no_to_bool(prompt_yes_no("enable debug (-D HTTP_HEADER_DEBUG) ?(y/n) > ")) then
+	configLines["VALAFLAGS+"] = configLines["VALAFLAGS+"] .. "-D HTTP_HEADER_DEBUG"
+end
 local conf = assert(io.open("build/.config.mk", "w"))
 -- import shotodol symbols
 local infile = assert(io.open(configLines["SHOTODOL_HOME"] .. "/build/.config.mk", "r"))

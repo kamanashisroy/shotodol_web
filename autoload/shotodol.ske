@@ -1,0 +1,9 @@
+
+# This shakefile is parsed by shotodol make module 
+
+onLoad:
+	module -load ../shotodol/core/script/dynalib.so
+	module -load web/httpproto/dynalib.so
+	module -load web/http_pkt_sorter/dynalib.so
+	rehash
+

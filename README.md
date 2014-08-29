@@ -54,4 +54,19 @@ Now you can easily build shotodol\_web like,
  a/shotodol_web$ ls
 	shotodol.bin
 ```
+
+Running in cgi mode
+====================
+
+The CGI mode reads standard input and calls the associated pages.
+
+Now you need to run the server like,
+```
+ a/shotodol_web$ ls
+	shotodol.bin
+ a/shotodol_web$ ./shotodol.bin
+```
+
+And then you need to open a browser and jump to [example](http://127.0.0.1:81/example). You should see a greetings from lua script. If it happened otherwise then please report a bug.
+
 Enjoy !
