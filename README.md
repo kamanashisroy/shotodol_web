@@ -65,6 +65,6 @@ Now you need to run the server like,
  a/shotodol_web$ ./shotodol.bin
 ```
 
-And then you need to open a browser and jump to [example](http://127.0.0.1:81/example). You should see a greetings from lua script. If it happened otherwise then please report a bug.
+And then you need to open a browser and jump to [index page](http://127.0.0.1:81/). You should see a greetings from lua script. If it happened otherwise then please report a bug.
 
 Enjoy !

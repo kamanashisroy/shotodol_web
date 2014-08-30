@@ -68,8 +68,12 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 			page.concat_string("page/");
 			if(url.char_at(0) == '/')
 				url.shift(1);
+			if(url.length() == 0)
+				url.rebuild_and_set_static_string("index");
 			page.concat(&url);
+#if HTTP_HEADER_DEBUG
 			print("Knocking %s\n", page.to_string());
+#endif
 			extring status = extring();
 			extring headerXtring = extring();
 			header.getTaskAs(&headerXtring);
