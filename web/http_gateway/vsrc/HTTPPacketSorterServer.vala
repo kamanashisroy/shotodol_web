@@ -10,8 +10,8 @@ internal class shotodol.web.HTTPPacketSorterServer : HTTPPacketSorterSpindle {
 	OutputStream?sink;
 	shotodol_platform_net.NetStreamPlatformImpl server = shotodol_platform_net.NetStreamPlatformImpl();
 	bool waiting;
-	HTTPCompositeResponseSink responders;
-	public HTTPPacketSorterServer(HTTPCompositeResponseSink givenResponders) {
+	CompositeOutputStream responders;
+	public HTTPPacketSorterServer(CompositeOutputStream givenResponders) {
 		base();
 		server = shotodol_platform_net.NetStreamPlatformImpl();
 		sink = null;
@@ -70,7 +70,9 @@ internal class shotodol.web.HTTPPacketSorterServer : HTTPPacketSorterSpindle {
 		wsink.client.accept(&server);
 		pl.add(&wsink.client);
 		pl.remove(&server);
-		responders.addResponder(wsink);
+		aroop_uword16 token = responders.addOutputStream(wsink);
+		wsink.client.setToken(token);
+		
 		//server.close();
 		waiting = false;
 		return 0;

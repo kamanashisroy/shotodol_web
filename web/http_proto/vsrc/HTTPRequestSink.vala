@@ -74,27 +74,21 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 			extring headerXtring = extring();
 			header.getTaskAs(&headerXtring);
 			Plugin.swarm(&page, &headerXtring, &status);
-			if(sink != null) {
-				// TODO show the right header
-				extring pkt = extring();
-				pkt.rebuild_in_heap(512);
-				uchar ch = (uchar)((token >> 8) & 0xFF);
-				pkt.concat_char(ch);
-				ch = (uchar)(token & 0xFF);
-				pkt.concat_char(ch);
-				pkt.concat_string("HTTP/1.1 200 OK\r\n");
-				pkt.concat_string("Server:Shotodol Web 0.0.0\r\n");
-				extring dlg = extring.stack(64);
-				dlg.printf("Content-length:%d\r\n", status.length()-2);
-				pkt.concat(&dlg);
-				pkt.concat_string("\r\n\r\n");
-				sink.write(&pkt);
-				ch = (uchar)((token >> 8) & 0xFF);
-				status.set_char_at(0, ch);
-				ch = (uchar)(token & 0xFF);
-				status.set_char_at(1, ch);
-				sink.write(&status);
-			}
+			if(sink == null)
+				return;
+			OutputStream xsink = sink.getOutputStream(token);
+			if(xsink == null)
+				return;
+			extring pkt = extring();
+			pkt.rebuild_in_heap(512);
+			pkt.concat_string("HTTP/1.1 200 OK\r\n");
+			pkt.concat_string("Server:Shotodol Web 0.0.0\r\n");
+			extring dlg = extring.stack(64);
+			dlg.printf("Content-length:%d\r\n", status.length());
+			pkt.concat(&dlg);
+			pkt.concat_string("\r\n\r\n");
+			xsink.write(&pkt);
+			xsink.write(&status);
 		}
 
 		void parseFirstLine(extring*cmd) {
@@ -151,13 +145,12 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 					break;
 				}
 			}
-
 			return 0;
 		}
 	}
 	bool closed;
 	internal Queue<xtring>packets;
-	internal static OutputStream?sink;
+	internal static CompositeOutputStream?sink;
 	public HTTPRequestSink() {
 		packets = Queue<xtring>();
 		closed = false;
@@ -212,7 +205,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 		sink = null;
 		extring entry = extring.set_static_string("http/response/sink");
 		Plugin.acceptVisitor(&entry, (x) => {
-			sink = (OutputStream)x.getInterface(null);
+			sink = (CompositeOutputStream)x.getInterface(null);
 		});
 		return 0;
 	}

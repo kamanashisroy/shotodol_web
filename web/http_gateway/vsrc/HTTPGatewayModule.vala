@@ -6,19 +6,19 @@ using shotodol.web;
  * \addtogroup web
  * @{
  */
-public class shotodol.web.HTTPPacketSorterModule : DynamicModule {
+public class shotodol.web.HTTPGatewayModule : DynamicModule {
 	
-	HTTPPacketSorterModule() {
+	HTTPGatewayModule() {
 		extring nm = extring.set_string(core.sourceModuleName());
 		extring ver = extring.set_static_string("0.0.0");
 		base(&nm,&ver);
 	}
 
-	~HTTPPacketSorterModule() {
+	~HTTPGatewayModule() {
 	}
 
 	public override int init() {
-		HTTPCompositeResponseSink sink = new HTTPCompositeResponseSink();
+		CompositeOutputStream sink = new CompositeOutputStream();
 		HTTPPacketSorterServer server = new HTTPPacketSorterServer(sink);
 		extring entry = extring.set_static_string("MainSpindle");
 		Plugin.register(&entry, new AnyInterfaceExtension(server, this));
@@ -37,7 +37,7 @@ public class shotodol.web.HTTPPacketSorterModule : DynamicModule {
 	
 	[CCode (cname="get_module_instance")]
 	public static Module get_module_instance() {
-		return new HTTPPacketSorterModule();
+		return new HTTPGatewayModule();
 	}
 }
 
