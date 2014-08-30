@@ -1,11 +1,12 @@
 using aroop;
 using shotodol;
-using shotodol.web;
+using shotodol.http_gateway;
 
-/** \addtogroup web
+/**
+ * \addtogroup http_gateway
  *  @{
  */
-internal class shotodol.web.HTTPResponseSink : OutputStream {
+internal class shotodol.http_gateway.HTTPResponseSink : OutputStream {
 	bool closed;
 	internal Queue<xtring>packets;
 	internal static OutputStream?sink;

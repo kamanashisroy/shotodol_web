@@ -1,12 +1,12 @@
 using aroop;
 using shotodol;
-using shotodol.web;
+using shotodol.http_gateway;
 
 /***
- * \addtogroup web
+ * \addtogroup http_gateway
  * @{
  */
-internal class shotodol.web.HTTPPacketSorterServer : HTTPPacketSorterSpindle {
+internal class shotodol.http_gateway.HTTPPacketSorterServer : HTTPPacketSorterSpindle {
 	OutputStream?sink;
 	shotodol_platform_net.NetStreamPlatformImpl server = shotodol_platform_net.NetStreamPlatformImpl();
 	bool waiting;
@@ -22,6 +22,12 @@ internal class shotodol.web.HTTPPacketSorterServer : HTTPPacketSorterSpindle {
 	~HTTPPacketSorterServer() {
 		server.close();
 	}
+
+	public void close() {
+		cancel();
+		server.close();
+	}
+
 	public override int start(Spindle?plr) {
 		Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.LOG, 0, 0, "Sync listening spindle starts!");
 		extring addr = extring.set_static_string("TCP://127.0.0.1:81");

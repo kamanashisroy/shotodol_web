@@ -1,4 +1,5 @@
 libs/plugin
+libs/make100
 core/base
 -SHOTODOL_NET_HOME
 OS_PLATFORM/platform_net

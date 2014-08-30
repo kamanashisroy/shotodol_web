@@ -1,12 +1,12 @@
 using aroop;
 using shotodol;
-using shotodol.web;
+using shotodol.http_gateway;
 
 /***
- * \addtogroup web
+ * \addtogroup http_gateway
  * @{
  */
-public abstract class shotodol.web.HTTPPacketSorterSpindle : Spindle {
+public abstract class shotodol.http_gateway.HTTPPacketSorterSpindle : Spindle {
 	protected bool poll;
 	protected int interval;
 	protected shotodol_platform_net.NetStreamPollPlatformImpl pl;
