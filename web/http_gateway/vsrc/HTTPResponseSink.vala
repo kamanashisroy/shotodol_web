@@ -45,6 +45,8 @@ internal class shotodol.http_gateway.HTTPResponseSink : OutputStream {
 	}
 
 	public override void close() throws IOStreamError.OutputStreamError {
+		if(!closed)
+			client.close();
 		closed = true;
 	}
 }

@@ -9,13 +9,15 @@ using shotodol.http_gateway;
 internal class shotodol.http_gateway.HTTPPacketSorterServer : HTTPPacketSorterSpindle {
 	OutputStream?sink;
 	shotodol_platform_net.NetStreamPlatformImpl server = shotodol_platform_net.NetStreamPlatformImpl();
-	bool waiting;
 	CompositeOutputStream responders;
+	enum serverInfo {
+		TOKEN = 1024,
+	}
 	public HTTPPacketSorterServer(CompositeOutputStream givenResponders) {
 		base();
 		server = shotodol_platform_net.NetStreamPlatformImpl();
+		server.setToken(serverInfo.TOKEN);
 		sink = null;
-		waiting = true;
 		responders = givenResponders;
 	}
 
@@ -25,6 +27,7 @@ internal class shotodol.http_gateway.HTTPPacketSorterServer : HTTPPacketSorterSp
 
 	public void close() {
 		cancel();
+		pl.remove(&server);
 		server.close();
 	}
 
@@ -53,19 +56,16 @@ internal class shotodol.http_gateway.HTTPPacketSorterServer : HTTPPacketSorterSp
 		return ret;
 	}
 
-#if false
-	int closeClient() {
+	int closeClient(aroop_uword16 token) {
 #if HTTP_HEADER_DEBUG
 		print("Closing client \n");
 #endif
-		pl.remove(&client);
-		client.close();
-		pl.add(&client);
-		waiting = true;
-		//poll = false;
+		if(sink == null)
+			return -1;
+		HTTPResponseSink client = (HTTPResponseSink)responders.getOutputStream(token);
+		pl.remove(&client.client);
 		return 0;
 	}
-#endif
 
 	int acceptClient() {
 		// accept client
@@ -75,28 +75,34 @@ internal class shotodol.http_gateway.HTTPPacketSorterServer : HTTPPacketSorterSp
 		HTTPResponseSink wsink = new HTTPResponseSink();
 		wsink.client.accept(&server);
 		pl.add(&wsink.client);
-		pl.remove(&server);
 		aroop_uword16 token = responders.addOutputStream(wsink);
+		print("New conenction token :%d\n", token);
 		wsink.client.setToken(token);
 		
-		//server.close();
-		waiting = false;
 		return 0;
 	}
 
 	internal override int onEvent(shotodol_platform_net.NetStreamPlatformImpl*x) {
+		aroop_uword16 token = x.getToken();
+		if(token == serverInfo.TOKEN) {
 #if HTTP_HEADER_DEBUG
-		print("[ ~ ] Server\n");
+			print("[ ~ ] New client\n");
 #endif
-		if(waiting) {
 			acceptClient();
 			return -1;
 		}
+#if HTTP_HEADER_DEBUG
+		print("[ + ] Incoming data\n");
+#endif
 		xtring pkt = new xtring.alloc(1024/*, TODO set factory */);
 		extring softpkt = extring.copy_on_demand(pkt);
-		softpkt.shift(2); // keep space for 2 bytes of header
+		softpkt.shift(2); // keep space for 2 bytes of token header
 		int len = x.read(&softpkt);
-		pkt.fly().setLength(len+2);
+		if(len == 0) {
+			return closeClient(token);
+		}
+		len+=2;
+		pkt.fly().setLength(len);
 #if HTTP_HEADER_DEBUG
 		print("trimmed packet to %d data\n", pkt.fly().length());
 		Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.LOG, 0, 0, "Reading ..");
@@ -104,13 +110,12 @@ internal class shotodol.http_gateway.HTTPPacketSorterServer : HTTPPacketSorterSp
 		// IMPORTANT trim the pkt here.
 		pkt.shrink(len);
 #if HTTP_HEADER_DEBUG
-		print("Read %d bytes\n", len);
+		print("Read %d bytes from %d connection\n", len-2, token);
 		Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.LOG, 0, 0, "Read bytes ..");
 #endif
 		if(sink == null) {
 			return 0;
 		}
-		uint token = x.getToken();
 		uchar ch = (uchar)((token >> 8) & 0xFF);
 		pkt.fly().set_char_at(0, ch);
 		ch = (uchar)(token & 0xFF);

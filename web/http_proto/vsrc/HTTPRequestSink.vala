@@ -81,8 +81,10 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 			if(sink == null)
 				return;
 			OutputStream xsink = sink.getOutputStream(token);
-			if(xsink == null)
+			if(xsink == null) {
+				Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.ERROR, 0, 0, "No connection found\n");
 				return;
+			}
 			extring pkt = extring();
 			pkt.rebuild_in_heap(512);
 			pkt.concat_string("HTTP/1.1 200 OK\r\n");
