@@ -55,10 +55,8 @@ Now you can easily build shotodol\_web like,
 	shotodol.bin
 ```
 
-Running in cgi mode
-====================
-
-The CGI mode reads standard input and calls the associated pages.
+Running in server mode
+=======================
 
 Now you need to run the server like,
 ```
