@@ -5,14 +5,16 @@ using shotodol.web;
 /** \addtogroup web
  *  @{
  */
+public enum shotodol.web.httpRequest {
+	REQUEST_METHOD = 1,
+	REQUEST_URL,
+	REQUEST_VERSION,
+	REQUEST_KEY,
+	REQUEST_VALUE,
+	REQUEST_QUERY_KEY,
+	REQUEST_QUERY_VALUE,
+}
 internal class shotodol.web.HTTPRequestSink : OutputStream {
-	enum httpRequest {
-		REQUEST_METHOD = 1,
-		REQUEST_URL,
-		REQUEST_VERSION,
-		REQUEST_KEY,
-		REQUEST_VALUE,
-	}
 	struct httpRequestProcessor {
 		protected Bundler bndlr;
 		Renu?header;
@@ -27,7 +29,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 			url = extring();
 			core.assert(memory != null);
 			header = memory;
-			bndlr.buildFromCarton(&header.msg, header.size);
+			bndlr.buildFromCarton(&header.msg, header.size, BundlerAffixes.PREFIX, 24);
 			token = 0;
 		}
 		int readLineAs(extring*input, extring*ln) {
@@ -63,6 +65,41 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 			return 0;
 		}
 
+		void parseQueryString() {
+			extring queryString = extring();
+			int i = 0;
+			for(i = 0;i < url.length();i++) {
+				if(url.char_at(i) == '?') {
+					queryString.rebuild_and_copy_shallow(&url);
+					url.trim_to_length(i);
+					queryString.shift(i+1);
+					break;
+				}
+			}
+			extring token = extring();
+			extring queryDelimiters = extring.set_static_string("=&");
+			while(true) {
+				if(queryString.is_empty())
+					break;
+				LineAlign.next_token_delimitered(&queryString, &token, &queryDelimiters);
+				if(!token.is_empty() && (token.char_at(0) == '&' || token.char_at(0) == '=')) {
+					token.shift(1);
+					continue;
+				}
+				if(queryString.is_empty() || queryString.char_at(0) == '&') {
+#if HTTP_HEADER_DEBUG
+					print("value[%d.%d]:%s\n", token.length(), queryString.length(), token.to_string());
+#endif
+					bndlr.writeEXtring(httpRequest.REQUEST_QUERY_VALUE, &token);
+				} else {
+#if HTTP_HEADER_DEBUG
+					print("key[%d,%d]:%s\n", token.length(), queryString.length(), token.to_string());
+#endif
+					bndlr.writeEXtring(httpRequest.REQUEST_QUERY_KEY, &token);
+				}
+			}
+		}
+
 		void notifyPageHook() {
 			extring page = extring.stack(url.length()+8);
 			page.concat_string("page/");
@@ -70,6 +107,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 				url.shift(1);
 			if(url.length() == 0)
 				url.rebuild_and_set_static_string("index");
+			parseQueryString();
 			page.concat(&url);
 #if HTTP_HEADER_DEBUG
 			print("Knocking %s\n", page.to_string());
