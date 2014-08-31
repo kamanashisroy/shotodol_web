@@ -103,11 +103,6 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 		void notifyPageHook() {
 			extring page = extring.stack(url.length()+8);
 			page.concat_string("page/");
-			if(url.char_at(0) == '/')
-				url.shift(1);
-			if(url.length() == 0)
-				url.rebuild_and_set_static_string("index");
-			parseQueryString();
 			page.concat(&url);
 #if HTTP_HEADER_DEBUG
 			print("Knocking %s\n", page.to_string());
@@ -145,6 +140,11 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 			url.rebuild_in_heap(token.length()+1);
 			url.concat(&token);
 			lineNumber++;
+			if(url.char_at(0) == '/')
+				url.shift(1);
+			parseQueryString();
+			if(url.length() == 0)
+				url.rebuild_and_set_static_string("index");
 		}
 
 		void parseLine(extring*cmd) {
