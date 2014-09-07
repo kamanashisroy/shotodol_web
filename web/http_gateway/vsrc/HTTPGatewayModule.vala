@@ -8,7 +8,7 @@ using shotodol.http_gateway;
  * @{
  */
 public class shotodol.http_gateway.HTTPGatewayModule : DynamicModule {
-	TCPPacketSorterServer?server;	
+	ConnectionOrientedPacketSorterServer?server;	
 	HTTPGatewayModule() {
 		extring nm = extring.set_string(core.sourceModuleName());
 		extring ver = extring.set_static_string("0.0.0");
@@ -42,7 +42,7 @@ public class shotodol.http_gateway.HTTPGatewayModule : DynamicModule {
 			cfg.getValueAs(&nm,&grp,&key,&laddr);
 		}
 		extring stack = extring.set_static_string("http");
-		server = new TCPPacketSorterServer(&stack, &laddr);
+		server = new ConnectionOrientedPacketSorterServer(&stack, &laddr);
 	}
 	int onReadyHook(extring*msg, extring*output) {
 		print("On ready\n");
