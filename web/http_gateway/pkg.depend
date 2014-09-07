@@ -1,5 +1,7 @@
 libs/plugin
 libs/make100
+libs/config
 core/base
 -SHOTODOL_NET_HOME
+libs/netio
 OS_PLATFORM/platform_net

@@ -1,4 +1,4 @@
 
-SYNC_PROTO_CLASSIFIER_CSOURCES=$(wildcard $(SYNC_SWITCH_HOME)/libs/syncclassifier/vsrc/*.c)
-SYNC_PROTO_CLASSIFIER_VSOURCE_BASE=$(basename $(notdir $(SYNC_PROTO_CLASSIFIER_CSOURCES)))
-OBJECTS+=$(addprefix $(SYNC_SWITCH_HOME)/build/.objects/, $(addsuffix .o,$(SYNC_PROTO_CLASSIFIER_VSOURCE_BASE)))
+SHOTODOL_HTTP_GATEWAY_CSOURCES=$(wildcard $(SYNC_SWITCH_HOME)/libs/http_gateway/vsrc/*.c)
+SHOTODOL_HTTP_GATEWAY_VSOURCE_BASE=$(basename $(notdir $(SHOTODOL_HTTP_GATEWAY_CSOURCES)))
+OBJECTS+=$(addprefix $(SHOTODOL_WEB_HOME)/build/.objects/, $(addsuffix .o,$(SHOTODOL_HTTP_GATEWAY_VSOURCE_BASE)))

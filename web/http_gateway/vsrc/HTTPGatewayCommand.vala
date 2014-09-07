@@ -1,13 +1,14 @@
 using aroop;
 using shotodol;
+using shotodol.netio;
 using shotodol.http_gateway;
 
 /** \addtogroup http_gateway
  *  @{
  */
 internal class shotodol.http_gateway.HTTPGatewayCommand : M100Command {
-	unowned HTTPPacketSorterServer server;
-	public HTTPGatewayCommand(HTTPPacketSorterServer givenServer) {
+	unowned TCPPacketSorterServer server;
+	public HTTPGatewayCommand(TCPPacketSorterServer givenServer) {
 		var prefix = extring.set_static_string("httpg");
 		base(&prefix);
 		server = givenServer;

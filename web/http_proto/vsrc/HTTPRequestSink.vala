@@ -235,6 +235,9 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 	public override int write(extring*buf) throws IOStreamError.OutputStreamError {
 		if(closed)
 			return 0;
+#if HTTP_HEADER_DEBUG
+		print("Processor is reading data %d .. \n", buf.length());
+#endif
 		int len = buf.length();
 		xtring pkt = new xtring.copy_on_demand(buf);
 		packets.enqueue(pkt);
@@ -247,7 +250,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 	}
 	internal int rehashHook(extring*inmsg, extring*outmsg) {
 		sink = null;
-		extring entry = extring.set_static_string("http/response/sink");
+		extring entry = extring.set_static_string("http/output/sink");
 		Plugin.acceptVisitor(&entry, (x) => {
 			sink = (CompositeOutputStream)x.getInterface(null);
 		});
