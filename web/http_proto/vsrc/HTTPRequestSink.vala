@@ -76,26 +76,26 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 					break;
 				}
 			}
-			extring token = extring();
+			extring strtoken = extring();
 			extring queryDelimiters = extring.set_static_string("=&");
 			while(true) {
 				if(queryString.is_empty())
 					break;
-				LineAlign.next_token_delimitered(&queryString, &token, &queryDelimiters);
-				if(!token.is_empty() && (token.char_at(0) == '&' || token.char_at(0) == '=')) {
-					token.shift(1);
+				LineAlign.next_token_delimitered(&queryString, &strtoken, &queryDelimiters);
+				if(!strtoken.is_empty() && (strtoken.char_at(0) == '&' || strtoken.char_at(0) == '=')) {
+					strtoken.shift(1);
 					continue;
 				}
 				if(queryString.is_empty() || queryString.char_at(0) == '&') {
 #if HTTP_HEADER_DEBUG
-					print("value[%d.%d]:%s\n", token.length(), queryString.length(), token.to_string());
+					print("value[%d.%d]:%s\n", strtoken.length(), queryString.length(), strtoken.to_string());
 #endif
-					bndlr.writeEXtring(httpRequest.REQUEST_QUERY_VALUE, &token);
+					bndlr.writeEXtring(httpRequest.REQUEST_QUERY_VALUE, &strtoken);
 				} else {
 #if HTTP_HEADER_DEBUG
-					print("key[%d,%d]:%s\n", token.length(), queryString.length(), token.to_string());
+					print("key[%d,%d]:%s\n", strtoken.length(), queryString.length(), strtoken.to_string());
 #endif
-					bndlr.writeEXtring(httpRequest.REQUEST_QUERY_KEY, &token);
+					bndlr.writeEXtring(httpRequest.REQUEST_QUERY_KEY, &strtoken);
 				}
 			}
 		}
@@ -131,14 +131,14 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 		}
 
 		void parseFirstLine(extring*cmd) {
-			extring token = extring();
-			LineAlign.next_token(cmd, &token);
-			bndlr.writeEXtring(httpRequest.REQUEST_METHOD, &token);
-			LineAlign.next_token(cmd, &token);
-			bndlr.writeEXtring(httpRequest.REQUEST_URL, &token);
+			extring strtoken = extring();
+			LineAlign.next_token(cmd, &strtoken);
+			bndlr.writeEXtring(httpRequest.REQUEST_METHOD, &strtoken);
+			LineAlign.next_token(cmd, &strtoken);
+			bndlr.writeEXtring(httpRequest.REQUEST_URL, &strtoken);
 			bndlr.writeEXtring(httpRequest.REQUEST_VERSION, cmd);
-			url.rebuild_in_heap(token.length()+1);
-			url.concat(&token);
+			url.rebuild_in_heap(strtoken.length()+1);
+			url.concat(&strtoken);
 			lineNumber++;
 			if(url.char_at(0) == '/')
 				url.shift(1);
@@ -153,10 +153,10 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 				return;
 			}
 			cmd.zero_terminate();
-			extring token = extring();
-			LineAlign.next_token_delimitered(cmd, &token, &colonSign);
+			extring strtoken = extring();
+			LineAlign.next_token_delimitered(cmd, &strtoken, &colonSign);
 			if(cmd.char_at(0) == '=') {
-				bndlr.writeEXtring(httpRequest.REQUEST_KEY, &token);
+				bndlr.writeEXtring(httpRequest.REQUEST_KEY, &strtoken);
 				bndlr.writeEXtring(httpRequest.REQUEST_VALUE, cmd);
 			}
 			lineNumber++;

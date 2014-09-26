@@ -1,0 +1,7 @@
+
+core/base
+core/commands
+libs/bundle
+libs/iostream
+-SHOTODOL_WEB_HOME
+web/http_proto
