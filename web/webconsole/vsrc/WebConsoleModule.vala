@@ -36,9 +36,9 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 			extring nm = extring();
 			cmd.getPrefixAs(&nm);
 			//output.concat(&nm);
-			output.concat_string("<form action=\"/console/action/?command=");
-			output.concat(&nm);
-			output.concat_string("&\" target=\"shotodolOutput\"/>");
+			output.concat_string("<form action=\"/console/action\"");
+			//output.concat(&nm);
+			output.concat_string(" target=\"shotodolOutput\"/>");
 			Iterator<M100CommandOption> it = Iterator<M100CommandOption>.EMPTY();
 			cmd.getOptionsIterator(&it);
 			while(it.next()) {
@@ -62,7 +62,7 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 				output.concat_string("\"></input>");
 			//});
 			}
-			output.concat_string("<input type=\"submit\" value=\"");
+			output.concat_string("<input type=\"submit\" name=\"command\" value=\"");
 			output.concat(&nm);
 			output.concat_string("\"></input>");
 			//cmd.desc(M100Command.CommandDescType.COMMAND_DESC_TITLE, pad);
@@ -76,10 +76,66 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 	}
 
 	int onCommandActionPage(extring*msg, extring*output) {
-		extring cmd = extring();
-		// TODO parse the parameters and execute command
+		extring target = extring.stack(64);
+		extring param = extring.stack(512);
+		bool nextIsCommand = false;
+		Bundler bndlr = Bundler();
+		bndlr.build_extring_reader(msg, BundlerAffixes.PREFIX);
+#if HTTP_HEADER_DEBUG
+		print("request length:%d\n", msg.length());
+#endif
+		try {
+			while(true) {
+				int key = bndlr.next();
+				if(key == -1) break;
+				if(key != httpRequest.REQUEST_QUERY_KEY && key != httpRequest.REQUEST_QUERY_VALUE)
+					continue;
+				if(bndlr.getContentType() != BundledContentType.STRING_CONTENT) continue;
+				extring harg = extring();
+				bndlr.getEXtring(&harg);
+#if HTTP_HEADER_DEBUG
+				print("arg:[%s][%d]\n", harg.to_string(), harg.length());
+#endif
+				if(key == httpRequest.REQUEST_QUERY_KEY && harg.equals_static_string("command")) {
+					nextIsCommand = true;
+					continue;
+				}
+				if(!nextIsCommand) {
+					param.concat(&harg);
+					param.concat_string(" ");
+#if HTTP_HEADER_DEBUG
+					print("Param : %s\n", param.to_string());
+#endif
+					continue;
+				}
+				target.concat(&harg);
+#if HTTP_HEADER_DEBUG
+				print("Target command : %s\n", target.to_string());
+#endif
+				nextIsCommand = false;
+			}
+		} catch(BundlerError err) {
+#if HTTP_HEADER_DEBUG
+			print("------------------ Error !\n");
+#endif
+		}
+#if HTTP_HEADER_DEBUG
+		print("Target command : %s\n", target.to_string());
+#endif
+		if(target.is_empty())
+			return 0;
+		// Prepare command string
+		extring cmdstr = extring.stack(512);
+		cmdstr.concat(&target);
+		cmdstr.concat_string(" ");
+		cmdstr.concat(&param);
+		cmdstr.concat_string("\r\n");
+		cmdstr.zero_terminate();
+#if HTTP_HEADER_DEBUG
+		print("executing %s\n", cmdstr.to_string());
+#endif
 		extring entry = extring.set_static_string("command/server");
-		Plugin.swarm(&entry, &cmd, output);
+		Plugin.swarm(&entry, &cmdstr, output);
 		return 0;
 	}
 

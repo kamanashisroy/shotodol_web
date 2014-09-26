@@ -88,7 +88,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 				}
 				if(queryString.is_empty() || queryString.char_at(0) == '&') {
 #if HTTP_HEADER_DEBUG
-					print("value[%d.%d]:%s\n", strtoken.length(), queryString.length(), strtoken.to_string());
+					print("value[%d,%d]:%s\n", strtoken.length(), queryString.length(), strtoken.to_string());
 #endif
 					bndlr.writeEXtring(httpRequest.REQUEST_QUERY_VALUE, &strtoken);
 				} else {
