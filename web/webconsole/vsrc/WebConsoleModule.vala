@@ -22,7 +22,7 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 	}
 
 	int onCommandPage(extring*msg, extring*output) {
-		output.rebuild_in_heap(4096);
+		output.rebuild_in_heap(1024<<5);
 		output.concat_string("<html>");
 		output.concat_string("<h1>Commands</h1>");
 		output.concat_string("<ul>");
@@ -41,6 +41,9 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 			output.concat_string(" target=\"shotodolOutput\"/>");
 			Iterator<M100CommandOption> it = Iterator<M100CommandOption>.EMPTY();
 			cmd.getOptionsIterator(&it);
+			output.concat_string("<input type=\"submit\" name=\"command\" value=\"");
+			output.concat(&nm);
+			output.concat_string("\"></input>");
 			while(it.next()) {
 			//cmd.acceptOptionsVisitor((opt) => {
 				//opt.desc(pad);
@@ -62,9 +65,6 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 				output.concat_string("\"></input>");
 			//});
 			}
-			output.concat_string("<input type=\"submit\" name=\"command\" value=\"");
-			output.concat(&nm);
-			output.concat_string("\"></input>");
 			//cmd.desc(M100Command.CommandDescType.COMMAND_DESC_TITLE, pad);
 			output.concat_string("</form>");
 			output.concat_string("</li>");
@@ -77,7 +77,8 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 
 	int onCommandActionPage(extring*msg, extring*output) {
 		extring target = extring.stack(64);
-		extring param = extring.stack(512);
+		extring paramstr = extring.stack(512);
+		extring param = extring.stack(512); 
 		bool nextIsCommand = false;
 		Bundler bndlr = Bundler();
 		bndlr.build_extring_reader(msg, BundlerAffixes.PREFIX);
@@ -101,10 +102,25 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 					continue;
 				}
 				if(!nextIsCommand) {
-					param.concat(&harg);
-					param.concat_string(" ");
+					if(harg.is_empty()) {
+						param.setLength(0);
+						continue;
+					}
+					if(key == httpRequest.REQUEST_QUERY_KEY) {
+						param.concat(&harg);
+						param.concat_string(" ");
+					} else {
+						if(harg.equals_static_string("off"))
+							continue;
+						if(!harg.equals_static_string("on")) {
+							param.concat(&harg);
+							param.concat_string(" ");
+						}
+						paramstr.concat(&param);
+					}
+						
 #if HTTP_HEADER_DEBUG
-					print("Param : %s\n", param.to_string());
+					print("Param : %s\n", paramstr.to_string());
 #endif
 					continue;
 				}
@@ -128,7 +144,7 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 		extring cmdstr = extring.stack(512);
 		cmdstr.concat(&target);
 		cmdstr.concat_string(" ");
-		cmdstr.concat(&param);
+		cmdstr.concat(&paramstr);
 		cmdstr.concat_string("\r\n");
 		cmdstr.zero_terminate();
 #if HTTP_HEADER_DEBUG

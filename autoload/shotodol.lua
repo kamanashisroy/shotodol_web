@@ -4,7 +4,7 @@ function rehash()
 end
 
 function exten_page_index(x) 
-	local msg =  "<html>Congratulations!, it works.<a href=\"/example\">more example</a></html>\n"
+	local msg =  "<html>Congratulations!, it works.<ul><li><a href=\"/console\">Console</a></li><li><a href=\"/example\">more example</a></li></ul></html>\n"
 	OutputStream.write(msg)
 	return(msg)
 end
