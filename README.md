@@ -67,6 +67,6 @@ Now you need to run the server like,
 
 And then you need to open a browser and jump to [index page](http://127.0.0.1:81/). You should see a greetings from lua script. If it happened otherwise then please report a bug.
 
-There is a web console on [this page](http://127.0.0.1:81/console).
+There is a [web console](web/webconsole/README.md) on [this page](http://127.0.0.1:81/console).
 
 Enjoy !

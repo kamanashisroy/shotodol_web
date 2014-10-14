@@ -16,7 +16,7 @@ internal class shotodol.web.CGIReaderSpindle : Spindle {
 	LineInputStream is;
 	protected StandardOutputStream pad;
 	extring colonSign;
-	Renu?header;
+	Bag?header;
 	Bundler bndlr;
 	int lineNumber;
 	bool endOfParsing;
@@ -36,17 +36,17 @@ internal class shotodol.web.CGIReaderSpindle : Spindle {
 	}
 	public override int start(Spindle?plr) {
 		// do late initialization here ..
-		RenuFactory? renuBuilder = null;
-		extring ex = extring.set_static_string("renu/factory");
+		BagFactory? bagBuilder = null;
+		extring ex = extring.set_static_string("bag/factory");
 		Plugin.acceptVisitor(&ex, (x) => {
-			renuBuilder = (RenuFactory)x.getInterface(null);
+			bagBuilder = (BagFactory)x.getInterface(null);
 		});
-		if(renuBuilder == null) {
-			print("Could not get renu factory\n");
+		if(bagBuilder == null) {
+			print("Could not get bag factory\n");
 			// fatal error
 			return -1;
 		}
-		header = renuBuilder.createRenu(1024);
+		header = bagBuilder.createBag(1024);
 		bndlr.buildFromCarton(&header.msg, header.size);
 		return 0;
 	}

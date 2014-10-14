@@ -17,12 +17,12 @@ public enum shotodol.web.httpRequest {
 internal class shotodol.web.HTTPRequestSink : OutputStream {
 	struct httpRequestProcessor {
 		protected Bundler bndlr;
-		Renu?header;
+		Bag?header;
 		int lineNumber;
 		extring url;
 		extring colonSign;
 		aroop_uword16 token;
-		protected httpRequestProcessor(Renu?memory) {
+		protected httpRequestProcessor(Bag?memory) {
 			colonSign = extring.set_static_string(":");
 			bndlr = Bundler();
 			lineNumber = 0;
@@ -211,18 +211,18 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 			return 0;
 
 		// do late initialization here ..
-		RenuFactory? renuBuilder = null;
-		extring ex = extring.set_static_string("renu/factory");
+		BagFactory? bagBuilder = null;
+		extring ex = extring.set_static_string("bag/factory");
 		Plugin.acceptVisitor(&ex, (x) => {
-			renuBuilder = (RenuFactory)x.getInterface(null);
+			bagBuilder = (BagFactory)x.getInterface(null);
 		});
-		if(renuBuilder == null) {
-			print("Could not get renu factory\n");
+		if(bagBuilder == null) {
+			print("Could not get bag factory\n");
 			// fatal error
 			core.assert(false);
 			//return -1;
 		}
-		Renu?memory = renuBuilder.createRenu(1024);
+		Bag?memory = bagBuilder.createBag(1024);
 		core.assert(memory != null);
 		httpRequestProcessor x = httpRequestProcessor(memory);
 #if HTTP_HEADER_DEBUG
