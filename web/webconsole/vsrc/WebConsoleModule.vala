@@ -80,20 +80,20 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 		extring paramstr = extring.stack(512);
 		extring param = extring.stack(512); 
 		bool nextIsCommand = false;
-		Bundler bndlr = Bundler();
-		bndlr.build_extring_reader(msg, BundlerAffixes.PREFIX);
+		Unbundler ubndlr = Unbundler();
+		ubndlr.build(msg, BundlerAffixes.PREFIX);
 #if HTTP_HEADER_DEBUG
 		print("request length:%d\n", msg.length());
 #endif
 		try {
 			while(true) {
-				int key = bndlr.next();
+				int key = ubndlr.next();
 				if(key == -1) break;
 				if(key != httpRequest.REQUEST_QUERY_KEY && key != httpRequest.REQUEST_QUERY_VALUE)
 					continue;
-				if(bndlr.getContentType() != BundledContentType.STRING_CONTENT) continue;
+				if(ubndlr.getContentType() != BundledContentType.STRING_CONTENT) continue;
 				extring harg = extring();
-				bndlr.getEXtring(&harg);
+				ubndlr.getEXtring(&harg);
 #if HTTP_HEADER_DEBUG
 				print("arg:[%s][%d]\n", harg.to_string(), harg.length());
 #endif
