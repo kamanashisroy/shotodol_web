@@ -109,7 +109,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 #endif
 			extring status = extring();
 			extring headerXtring = extring();
-			header.getTaskAs(&headerXtring);
+			header.getContentAs(&headerXtring);
 			Plugin.swarm(&page, &headerXtring, &status);
 			if(sink == null)
 				return;
