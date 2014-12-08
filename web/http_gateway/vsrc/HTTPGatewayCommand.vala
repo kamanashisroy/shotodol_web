@@ -7,8 +7,8 @@ using shotodol.http_gateway;
  *  @{
  */
 internal class shotodol.http_gateway.HTTPGatewayCommand : M100Command {
-	unowned ConnectionOrientedPacketSorterServer server;
-	public HTTPGatewayCommand(ConnectionOrientedPacketSorterServer givenServer) {
+	unowned ConnectionOrientedPacketConveyorBelt server;
+	public HTTPGatewayCommand(ConnectionOrientedPacketConveyorBelt givenServer) {
 		var prefix = extring.set_static_string("httpg");
 		base(&prefix);
 		server = givenServer;
