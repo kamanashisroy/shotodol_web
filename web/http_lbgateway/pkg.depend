@@ -1,0 +1,9 @@
+libs/plugin
+libs/make100
+libs/config
+core/base
+core/fork
+-SHOTODOL_NET_HOME
+libs/netio
+libs/router
+OS_PLATFORM/platform_net

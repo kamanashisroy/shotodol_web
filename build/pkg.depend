@@ -1,3 +1,4 @@
 web/http_proto
 web/http_gateway
+web/http_lbgateway
 web/webconsole

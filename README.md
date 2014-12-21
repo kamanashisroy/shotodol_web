@@ -11,6 +11,7 @@ You need to get the following project sources,
 - [aroop](https://github.com/kamanashisroy/aroop)
 - [shotodol](https://github.com/kamanashisroy/shotodol)
 - [shotodol_net](https://github.com/kamanashisroy/shotodol_net)
+- [shotodol_script](https://github.com/kamanashisroy/shotodol_script)
 
 Getting the projects
 ====================

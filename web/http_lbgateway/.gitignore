@@ -1,0 +1,6 @@
+vapi/*.vapi
+include/*.h
+vsrc/*.c
+vsrc/*~
+*.so
+*.a

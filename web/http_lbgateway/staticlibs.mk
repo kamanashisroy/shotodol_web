@@ -1,0 +1,4 @@
+
+SHOTODOL_HTTP_LBGATEWAY_CSOURCES=$(wildcard $(SYNC_SWITCH_HOME)/libs/http_lbgateway/vsrc/*.c)
+SHOTODOL_HTTP_LBGATEWAY_VSOURCE_BASE=$(basename $(notdir $(SHOTODOL_HTTP_LBGATEWAY_CSOURCES)))
+OBJECTS+=$(addprefix $(SHOTODOL_WEB_HOME)/build/.objects/, $(addsuffix .o,$(SHOTODOL_HTTP_LBGATEWAY_VSOURCE_BASE)))

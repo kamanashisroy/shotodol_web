@@ -7,4 +7,4 @@
 - [ ] Write a http server load test. The idea is to compare the performance of servers written in C, C++ and Java.
 	- [ ] [Apache HTTP server benchmarking tool](http://httpd.apache.org/docs/2.0/programs/ab.html)
 	- [ ] Write a proxy server.
-	- [ ] Write a load balancer.
+	- [x] Write a load balancer.
