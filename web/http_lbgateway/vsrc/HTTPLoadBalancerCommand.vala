@@ -1,7 +1,7 @@
 using aroop;
 using shotodol;
 using shotodol.netio;
-using shotodol.router;
+using shotodol.distributedio;
 using shotodol.fork;
 using shotodol.http_lbgateway;
 
@@ -9,7 +9,7 @@ using shotodol.http_lbgateway;
  *  @{
  */
 internal class shotodol.http_lbgateway.HTTPLoadBalancerCommand : M100Command {
-	RoundRobinPacketSorter router;
+	RoundRobinPacketSorter sorter;
 	ForkStream?down;
 	ForkStream?up;
 	ConnectionOrientedPacketConveyorBelt?server;
@@ -20,7 +20,7 @@ internal class shotodol.http_lbgateway.HTTPLoadBalancerCommand : M100Command {
 	public HTTPLoadBalancerCommand(HTTPLoadBalancerGatewayModule?givenMod) {
 		var prefix = extring.set_static_string("httplb");
 		base(&prefix);
-		router = new RoundRobinPacketSorter(4);
+		sorter = new RoundRobinPacketSorter(4);
 		server = null;
 		down = null;
 		up = null;
@@ -65,7 +65,7 @@ internal class shotodol.http_lbgateway.HTTPLoadBalancerCommand : M100Command {
 		extring entry = extring.set_static_string("onQuit");
 		Plugin.register(&entry, new HookExtension(onQuitHook, mod));
 		entry.rebuild_and_set_static_string("httplb/connectionoriented/input/sink");
-		Plugin.register(&entry, new AnyInterfaceExtension(router, mod));
+		Plugin.register(&entry, new AnyInterfaceExtension(sorter, mod));
 		return 0;
 	}
 	internal int onFork_Before(extring*msg, extring*output) {
@@ -83,7 +83,7 @@ internal class shotodol.http_lbgateway.HTTPLoadBalancerCommand : M100Command {
 		if(down == null)
 			return -1;
 		down.onFork_After(false);
-		router.addSink(down.getOutputStream());
+		sorter.addSink(down.getOutputStream());
 		down = null;
 		up.onFork_After(false);
 		if(parentSpindle == null) {
@@ -107,7 +107,7 @@ internal class shotodol.http_lbgateway.HTTPLoadBalancerCommand : M100Command {
 		extring entry = extring.set_static_string("http/connectionoriented/output/sink");
 		Plugin.register(&entry, new AnyInterfaceExtension(up.getOutputStream(), mod));
 		rehashChild();
-		router = null;
+		sorter = null;
 		return 0;
 	}
 	int rehashParent() {

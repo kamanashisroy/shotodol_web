@@ -5,5 +5,5 @@ core/base
 core/fork
 -SHOTODOL_NET_HOME
 libs/netio
-libs/router
+libs/distributedio
 OS_PLATFORM/platform_net
