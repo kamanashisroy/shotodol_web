@@ -113,21 +113,27 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 			Plugin.swarm(&page, &headerXtring, &status);
 			if(sink == null)
 				return;
+#if false
 			OutputStream xsink = sink.getOutputStream(token);
 			if(xsink == null) {
 				Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.ERROR, 0, 0, "No connection found\n");
 				return;
 			}
+#endif
 			extring pkt = extring();
 			pkt.rebuild_in_heap(512);
+			uchar tag = (uchar)((token>>8) & 0x0F);
+			pkt.concat_char(tag);
+			tag = (uchar)(token & 0x0F);
+			pkt.concat_char(tag);
 			pkt.concat_string("HTTP/1.1 200 OK\r\n");
 			pkt.concat_string("Server:Shotodol Web 0.0.0\r\n");
 			extring dlg = extring.stack(64);
 			dlg.printf("Content-length:%d\r\n", status.length());
 			pkt.concat(&dlg);
 			pkt.concat_string("\r\n\r\n");
-			xsink.write(&pkt);
-			xsink.write(&status);
+			sink.write(&pkt);
+			sink.write(&status);
 		}
 
 		void parseFirstLine(extring*cmd) {
@@ -194,7 +200,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 	}
 	bool closed;
 	internal Queue<xtring>packets;
-	internal static CompositeOutputStream?sink;
+	internal static OutputStream?sink;
 	public HTTPRequestSink() {
 		packets = Queue<xtring>();
 		closed = false;
@@ -252,7 +258,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 		sink = null;
 		extring entry = extring.set_static_string("http/connectionoriented/output/sink");
 		Plugin.acceptVisitor(&entry, (x) => {
-			sink = (CompositeOutputStream)x.getInterface(null);
+			sink = (OutputStream)x.getInterface(null);
 		});
 		return 0;
 	}

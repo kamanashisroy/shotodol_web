@@ -13,3 +13,9 @@ onLoad:
 	rehash
 
 
+startServer:
+	fork
+
+onFork_complete:
+	rehash
+

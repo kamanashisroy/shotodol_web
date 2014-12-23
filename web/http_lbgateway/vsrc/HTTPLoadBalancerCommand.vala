@@ -71,8 +71,8 @@ internal class shotodol.http_lbgateway.HTTPLoadBalancerCommand : M100Command {
 	internal int onFork_Before(extring*msg, extring*output) {
 		if(!isParent)
 			return 0;
-		if(server == null)
-			return 0;
+		/*if(server == null)
+			return 0;*/
 		down = new ForkStream();
 		down.onFork_Before();
 		up = new ForkStream();
@@ -103,7 +103,7 @@ internal class shotodol.http_lbgateway.HTTPLoadBalancerCommand : M100Command {
 		down.onFork_After(true);
 		up.onFork_After(true);
 		// close the listening servers.
-		server.close();
+		if(server != null)server.close();
 		extring entry = extring.set_static_string("http/connectionoriented/output/sink");
 		Plugin.register(&entry, new AnyInterfaceExtension(up.getOutputStream(), mod));
 		rehashChild();
@@ -137,8 +137,8 @@ internal class shotodol.http_lbgateway.HTTPLoadBalancerCommand : M100Command {
 		return 0;
 	}
 	internal int onRehash(extring*msg, extring*output) {
-		if(server == null)
-			return 0;
+		/*if(server == null)
+			return 0;*/
 		if(isParent) {
 			return rehashParent();
 		}
