@@ -72,3 +72,15 @@ And then you need to open a browser and jump to [index page](http://127.0.0.1:81
 There is a [web console](web/webconsole/README.md) on [this page](http://127.0.0.1:81/console).
 
 Enjoy !
+
+Loadbalancer
+=============
+The loadbalancer testing code is at test/loadbalancer
+
+```
+a/shotodol_web$ cd test/loadbalancer
+a/shotodol_web/test/loadbalancer$ ../../shotodol.bin
+```
+
+After loading just fork and test the web pages.
+
