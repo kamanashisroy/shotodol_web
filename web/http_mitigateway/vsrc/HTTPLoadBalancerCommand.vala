@@ -1,14 +1,15 @@
 using aroop;
 using shotodol;
 using shotodol.netio;
+using shotodol.activeio;
 using shotodol.distributedio;
 using shotodol.fork;
-using shotodol.http_lbgateway;
+using shotodol.http_mitigateway;
 
-/** \addtogroup http_lbgateway
+/** \addtogroup http_mitigateway
  *  @{
  */
-internal class shotodol.http_lbgateway.HTTPLoadBalancerCommand : M100Command {
+internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 	RoundRobinPacketSorter sorter;
 	ForkStream?down;
 	ForkStream?up;

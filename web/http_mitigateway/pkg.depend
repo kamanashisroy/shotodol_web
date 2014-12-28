@@ -1,4 +1,5 @@
 libs/plugin
+libs/activeio
 libs/make100
 libs/config
 core/base

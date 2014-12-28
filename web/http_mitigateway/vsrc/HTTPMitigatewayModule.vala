@@ -1,13 +1,13 @@
 using aroop;
 using shotodol;
 using shotodol.netio;
-using shotodol.http_lbgateway;
+using shotodol.http_mitigateway;
 
 /***
- * \addtogroup http_lbgateway
+ * \addtogroup http_mitigateway
  * @{
  */
-public class shotodol.http_lbgateway.HTTPMitigatewayModule : DynamicModule {
+public class shotodol.http_mitigateway.HTTPMitigatewayModule : DynamicModule {
 	HTTPMitigatewayModule() {
 		extring nm = extring.set_string(core.sourceModuleName());
 		extring ver = extring.set_static_string("0.0.0");
