@@ -7,14 +7,14 @@ using shotodol.http_lbgateway;
  * \addtogroup http_lbgateway
  * @{
  */
-public class shotodol.http_lbgateway.HTTPLoadBalancerGatewayModule : DynamicModule {
-	HTTPLoadBalancerGatewayModule() {
+public class shotodol.http_lbgateway.HTTPMitigatewayModule : DynamicModule {
+	HTTPMitigatewayModule() {
 		extring nm = extring.set_string(core.sourceModuleName());
 		extring ver = extring.set_static_string("0.0.0");
 		base(&nm,&ver);
 	}
 
-	~HTTPLoadBalancerGatewayModule() {
+	~HTTPMitigatewayModule() {
 	}
 
 	public override int init() {
@@ -39,7 +39,7 @@ public class shotodol.http_lbgateway.HTTPLoadBalancerGatewayModule : DynamicModu
 	
 	[CCode (cname="get_module_instance")]
 	public static Module get_module_instance() {
-		return new HTTPLoadBalancerGatewayModule();
+		return new HTTPMitigatewayModule();
 	}
 }
 

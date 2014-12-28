@@ -13,11 +13,11 @@ internal class shotodol.http_lbgateway.HTTPLoadBalancerCommand : M100Command {
 	ForkStream?down;
 	ForkStream?up;
 	ConnectionOrientedPacketConveyorBelt?server;
-	unowned HTTPLoadBalancerGatewayModule?mod;
+	unowned HTTPMitigatewayModule?mod;
 	PullFeedSpindle?childSpindle;
 	CompositePullSingleFeedSpindle?parentSpindle;
 	bool isParent;
-	public HTTPLoadBalancerCommand(HTTPLoadBalancerGatewayModule?givenMod) {
+	public HTTPLoadBalancerCommand(HTTPMitigatewayModule?givenMod) {
 		var prefix = extring.set_static_string("httplb");
 		base(&prefix);
 		sorter = new RoundRobinPacketSorter(4);
