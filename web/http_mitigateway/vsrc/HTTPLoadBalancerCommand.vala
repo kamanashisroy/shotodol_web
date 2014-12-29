@@ -55,7 +55,7 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 			extring key = extring.set_static_string("address");
 			cfg.getValueAs(&nm,&grp,&key,&laddr);
 		}
-		extring stack = extring.set_static_string("httplb");
+		extring stack = extring.set_static_string("http/mitigateway");
 		server = new ConnectionOrientedPacketConveyorBelt(&stack, &laddr);
 	}
 	int setup() {
@@ -65,7 +65,7 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 		server.rehashHook(null,null);
 		extring entry = extring.set_static_string("onQuit");
 		Plugin.register(&entry, new HookExtension(onQuitHook, mod));
-		entry.rebuild_and_set_static_string("httplb/connectionoriented/input/sink");
+		entry.rebuild_and_set_static_string("http/mitigateway/connectionoriented/input/sink");
 		Plugin.register(&entry, new AnyInterfaceExtension(sorter, mod));
 		return 0;
 	}
@@ -115,7 +115,7 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 		OutputStream?lbsink = null;
 		if(parentSpindle == null)
 			return 0;
-		extring entry = extring.set_static_string("httplb/connectionoriented/output/sink");
+		extring entry = extring.set_static_string("http/mitigateway/connectionoriented/output/sink");
 		Plugin.acceptVisitor(&entry, (x) => {
 			lbsink = (OutputStream)x.getInterface(null);
 		});
