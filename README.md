@@ -82,7 +82,7 @@ a/shotodol_web$ cd test/loadbalancer
 a/shotodol_web/test/loadbalancer$ ../../shotodol.bin
 ```
 
-After loading just fork and test the web pages.
+After loading put command `httpmitigate -child 2` and test the web pages.
 
 The loadbalancer is packed in one module in [web/http_mitigateway](web/http_mitigateway).
 

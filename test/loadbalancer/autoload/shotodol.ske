@@ -9,12 +9,10 @@ onLoad:
 	module -load ../../web/http_mitigateway/dynalib.so
 	module -load ../../web/webconsole/dynalib.so
 	rehash
-	httplb
-	rehash
 
 
 startServer:
-	fork
+	httpmitigate -child 3
 
 onFork_complete:
 	rehash
