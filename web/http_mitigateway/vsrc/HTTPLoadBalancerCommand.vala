@@ -47,8 +47,7 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 			return 0;
 		int childCount = 4;
 		// TODO show the available down children and show the current load ..
-		xtring? arg = null;
-		arg = vals[Options.CHILD_COUNT];
+		xtring? arg = vals[Options.CHILD_COUNT];
 		if(arg != null)
 			childCount = arg.fly().to_int();
 		// spawn processes
@@ -82,18 +81,13 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 		server = new ConnectionOrientedPacketConveyorBelt(&stack, &laddr);
 	}
 	int setup() {
-		print("Opening server\n");
 		setupServer();
-		print("registering hooks\n");
 		server.registerAllHooks(mod);
-		print("registering quit command\n");
 		extring entry = extring.set_static_string("onQuit");
 		Plugin.register(&entry, new HookExtension(onQuitHook, mod));
-		print("registering sink\n");
 		entry.rebuild_and_set_static_string("http/mitigateway/connectionoriented/input/sink");
 		Plugin.register(&entry, new AnyInterfaceExtension(sorter, mod));
 		server.rehashHook(null,null);
-		print("done\n");
 		return 0;
 	}
 	internal int onFork_Before(extring*msg, extring*output) {
@@ -142,7 +136,6 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 		Plugin.register(&entry, new AnyInterfaceExtension(up.getOutputStream(), mod));
 		rehashChild();
 		sorter = null;
-		print("Forked a http worker\n");
 		return 0;
 	}
 	int rehashParent() {
