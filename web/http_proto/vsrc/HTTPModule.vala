@@ -23,8 +23,8 @@ public class shotodol.web.HTTPModule : shotodol.DynamicModule {
 		Plugin.register(&entry, new AnyInterfaceExtension(sync, this));
 		entry.rebuild_and_set_static_string("rehash");
 		Plugin.register(&entry, new HookExtension(sync.rehashHook, this));
-		entry.rebuild_and_set_static_string("onReadyAlter");
-		Plugin.register(&entry, new HookExtension(sync.rehashHook, this));
+		//entry.rebuild_and_set_static_string("onReadyAlter");
+		//Plugin.register(&entry, new HookExtension(sync.rehashHook, this));
 		return 0;
 	}
 	public override int deinit() {

@@ -72,10 +72,10 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 		
 		extring laddr = extring.set_static_string("TCP://127.0.0.1:82");
 		if(cfg != null) {
-			/*extring nm = extring.set_string(core.sourceModuleName());
+			extring nm = extring.set_string(core.sourceModuleName());
 			extring grp = extring.set_static_string("server");
 			extring key = extring.set_static_string("address");
-			cfg.getValueAs(&nm,&grp,&key,&laddr);*/
+			cfg.getValueAs(&nm,&grp,&key,&laddr);
 		}
 		extring stack = extring.set_static_string("http/mitigateway");
 		server = new ConnectionOrientedPacketConveyorBelt(&stack, &laddr);
@@ -83,7 +83,7 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 	int setup() {
 		setupServer();
 		server.registerAllHooks(mod);
-		extring entry = extring.set_static_string("onQuit");
+		extring entry = extring.set_static_string("onQuit/soft");
 		Plugin.register(&entry, new HookExtension(onQuitHook, mod));
 		entry.rebuild_and_set_static_string("http/mitigateway/connectionoriented/input/sink");
 		Plugin.register(&entry, new AnyInterfaceExtension(sorter, mod));

@@ -121,7 +121,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 			}
 #endif
 			extring pkt = extring();
-			pkt.rebuild_in_heap(512);
+			pkt.rebuild_in_heap(4096);
 			uchar tag = (uchar)((token>>8) & 0x0F);
 			pkt.concat_char(tag);
 			tag = (uchar)(token & 0x0F);
@@ -132,8 +132,10 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 			dlg.printf("Content-length:%d\r\n", status.length());
 			pkt.concat(&dlg);
 			pkt.concat_string("\r\n\r\n");
+			// XXX we are coping content here
+			pkt.concat(&status);
 			sink.write(&pkt);
-			sink.write(&status);
+			//sink.write(&status);
 		}
 
 		void parseFirstLine(extring*cmd) {
