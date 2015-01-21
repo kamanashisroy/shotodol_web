@@ -1,6 +1,5 @@
 using aroop;
 using shotodol;
-using syncproto;
 
 /***
  * \addtogroup signaling
