@@ -8,3 +8,5 @@
 	- [ ] [Apache HTTP server benchmarking tool](http://httpd.apache.org/docs/2.0/programs/ab.html)
 	- [ ] Write a proxy server.
 	- [x] Write a load balancer.
+- [ ] Use signal coder and decoder for http parsing.
+
