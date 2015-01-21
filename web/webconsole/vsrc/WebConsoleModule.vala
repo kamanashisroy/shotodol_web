@@ -1,6 +1,7 @@
 using aroop;
 using shotodol;
 using shotodol_platform;
+using shotodol.web.signaling;
 
 /** \addtogroup http
  *  @{

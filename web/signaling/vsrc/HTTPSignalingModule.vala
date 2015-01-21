@@ -1,12 +1,12 @@
 using aroop;
 using shotodol;
-using shotodol.http.signaling;
+using shotodol.web.signaling;
 
 /***
  * \addtogroup http.signaling
  * @{
  */
-public class shotodol.http.signaling.HTTPSignalingModule : DynamicModule {
+public class shotodol.web.signaling.HTTPSignalingModule : DynamicModule {
 	HTTPSignalingModule() {
 		extring nm = extring.set_string(core.sourceModuleName());
 		extring ver = extring.set_static_string("0.0.0");
@@ -17,7 +17,7 @@ public class shotodol.http.signaling.HTTPSignalingModule : DynamicModule {
 	}
 
 	public override int init() {
-		extring entry = extring.set_static_string("http/signaling/disassembler");
+		extring entry = extring.set_static_string("http/signaldecoder");
 		Plugin.register(&entry, new AnyInterfaceExtension(new HTTPPacketDisassembler(), this));
 		return 0;
 	}

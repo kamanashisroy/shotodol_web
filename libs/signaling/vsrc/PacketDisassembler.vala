@@ -6,7 +6,7 @@ using shotodol;
  * @{
  */
 public abstract class shotodol.signaling.PacketDisassembler : Replicable {
-	public abstract int parse(Bag state, extring*pkt);
+	public abstract int parse(extring*outUrl, Bag?header, extring*pkt);
 }
 
 /** @} */
