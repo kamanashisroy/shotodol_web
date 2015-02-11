@@ -40,7 +40,7 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 			output.concat_string("<form action=\"/console/action\"");
 			//output.concat(&nm);
 			output.concat_string(" target=\"shotodolOutput\"/>");
-			Iterator<M100CommandOption> it = Iterator<M100CommandOption>.EMPTY();
+			Iterator<M100CommandOption> it = Iterator<M100CommandOption>();
 			cmd.getOptionsIterator(&it);
 			output.concat_string("<input type=\"submit\" name=\"command\" value=\"");
 			output.concat(&nm);
