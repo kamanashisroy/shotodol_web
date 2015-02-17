@@ -18,7 +18,7 @@ public class shotodol.web.signaling.HTTPSignalingModule : DynamicModule {
 
 	public override int init() {
 		extring entry = extring.set_static_string("http/signaldecoder");
-		Plugin.register(&entry, new AnyInterfaceExtension(new HTTPPacketDisassembler(), this));
+		PluginManager.register(&entry, new AnyInterfaceExtension(new HTTPPacketDisassembler(), this));
 		return 0;
 	}
 	public override int deinit() {

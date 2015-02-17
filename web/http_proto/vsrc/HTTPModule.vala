@@ -20,11 +20,11 @@ public class shotodol.web.HTTPModule : shotodol.DynamicModule {
 	public override int init() {
 		HTTPRequestSink sync = new HTTPRequestSink();
 		extring entry = extring.set_static_string("http/connectionoriented/input/sink");
-		Plugin.register(&entry, new AnyInterfaceExtension(sync, this));
+		PluginManager.register(&entry, new AnyInterfaceExtension(sync, this));
 		entry.rebuild_and_set_static_string("rehash");
-		Plugin.register(&entry, new HookExtension(sync.rehashHook, this));
+		PluginManager.register(&entry, new HookExtension(sync.rehashHook, this));
 		//entry.rebuild_and_set_static_string("onReadyAlter");
-		//Plugin.register(&entry, new HookExtension(sync.rehashHook, this));
+		//PluginManager.register(&entry, new HookExtension(sync.rehashHook, this));
 		return 0;
 	}
 	public override int deinit() {

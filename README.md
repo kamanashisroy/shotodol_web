@@ -86,3 +86,9 @@ After loading put command `httpmitigate -child 2` and test the web pages.
 
 The loadbalancer is packed in one module in [web/http_mitigateway](web/http_mitigateway).
 
+Tasks
+=====
+
+[TASKS](TASKS.md)
+
+

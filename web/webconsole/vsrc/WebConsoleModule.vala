@@ -16,9 +16,9 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 
 	public override int init() {
 		extring entry = extring.set_static_string("page/console");
-		Plugin.register(&entry, new HookExtension(onCommandPage, this));
+		PluginManager.register(&entry, new HookExtension(onCommandPage, this));
 		entry.rebuild_and_set_static_string("page/console/action");
-		Plugin.register(&entry, new HookExtension(onCommandActionPage, this));
+		PluginManager.register(&entry, new HookExtension(onCommandActionPage, this));
 		return 0;
 	}
 
@@ -28,7 +28,7 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 		output.concat_string("<h1>Commands</h1>");
 		output.concat_string("<ul>");
 		extring entry = extring.set_static_string("command");
-		Plugin.acceptVisitor(&entry, (x) => {
+		PluginManager.acceptVisitor(&entry, (x) => {
 			M100Command?cmd = (M100Command)x.getInterface(null);
 			if(cmd == null) {
 				return;
@@ -152,7 +152,7 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 		print("executing %s\n", cmdstr.to_string());
 #endif
 		extring entry = extring.set_static_string("command/server");
-		Plugin.swarm(&entry, &cmdstr, output);
+		PluginManager.swarm(&entry, &cmdstr, output);
 		return 0;
 	}
 

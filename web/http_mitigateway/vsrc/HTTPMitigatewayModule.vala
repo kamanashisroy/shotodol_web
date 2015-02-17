@@ -20,15 +20,15 @@ public class shotodol.http_mitigateway.HTTPMitigatewayModule : DynamicModule {
 	public override int init() {
 		HTTPLoadBalancerCommand cmd = new HTTPLoadBalancerCommand(this);
 		extring entry = extring.set_static_string("command");
-		Plugin.register(&entry, new M100Extension(cmd, this));
+		PluginManager.register(&entry, new M100Extension(cmd, this));
 		entry.rebuild_and_set_static_string("onFork/before");
-		Plugin.register(&entry, new HookExtension(cmd.onFork_Before, this));
+		PluginManager.register(&entry, new HookExtension(cmd.onFork_Before, this));
 		entry.rebuild_and_set_static_string("onFork/after/parent");
-		Plugin.register(&entry, new HookExtension(cmd.onFork_After_Parent, this));
+		PluginManager.register(&entry, new HookExtension(cmd.onFork_After_Parent, this));
 		entry.rebuild_and_set_static_string("onFork/after/child");
-		Plugin.register(&entry, new HookExtension(cmd.onFork_After_Child, this));
+		PluginManager.register(&entry, new HookExtension(cmd.onFork_After_Child, this));
 		entry.rebuild_and_set_static_string("rehash");
-		Plugin.register(&entry, new HookExtension(cmd.onRehash, this));
+		PluginManager.register(&entry, new HookExtension(cmd.onRehash, this));
 		return 0;
 	}
 

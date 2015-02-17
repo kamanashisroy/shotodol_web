@@ -34,7 +34,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 		// do late initialization here ..
 		BagFactory? bagBuilder = null;
 		extring ex = extring.set_static_string("bag/factory");
-		Plugin.acceptVisitor(&ex, (x) => {
+		PluginManager.acceptVisitor(&ex, (x) => {
 			bagBuilder = (BagFactory)x.getInterface(null);
 		});
 		if(bagBuilder == null) {
@@ -73,7 +73,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 		extring status = extring();
 		extring headerXtring = extring();
 		header.getContentAs(&headerXtring);
-		Plugin.swarm(&page, &headerXtring, &status);
+		PluginManager.swarm(&page, &headerXtring, &status);
 		if(sink == null)
 			return;
 #if false
@@ -120,12 +120,12 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 	internal int rehashHook(extring*inmsg, extring*outmsg) {
 		sink = null;
 		extring entry = extring.set_static_string("http/connectionoriented/output/sink");
-		Plugin.acceptVisitor(&entry, (x) => {
+		PluginManager.acceptVisitor(&entry, (x) => {
 			sink = (OutputStream)x.getInterface(null);
 		});
 		signalDecoder = null;
 		entry.rebuild_and_set_static_string("http/signaldecoder");
-		Plugin.acceptVisitor(&entry, (x) => {
+		PluginManager.acceptVisitor(&entry, (x) => {
 			signalDecoder = (PacketDisassembler)x.getInterface(null);
 		});
 		return 0;

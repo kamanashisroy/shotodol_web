@@ -19,9 +19,9 @@ public class shotodol.http_gateway.HTTPGatewayModule : DynamicModule {
 
 	public override int init() {
 		extring entry = extring.set_static_string("command");
-		Plugin.register(&entry, new M100Extension(new HTTPGatewayCommand(this), this));
+		PluginManager.register(&entry, new M100Extension(new HTTPGatewayCommand(this), this));
 		//entry.rebuild_and_set_static_string("onReady");
-		//Plugin.register(&entry, new HookExtension(onReadyHook, this));
+		//PluginManager.register(&entry, new HookExtension(onReadyHook, this));
 		return 0;
 	}
 

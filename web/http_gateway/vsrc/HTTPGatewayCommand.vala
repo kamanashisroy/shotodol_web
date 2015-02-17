@@ -27,7 +27,7 @@ internal class shotodol.http_gateway.HTTPGatewayCommand : M100Command {
 		// get the server address from config
 		ConfigEngine?cfg = null;
 		extring entry = extring.set_static_string("config/server");
-		Plugin.acceptVisitor(&entry, (x) => {
+		PluginManager.acceptVisitor(&entry, (x) => {
 			cfg = (ConfigEngine)x.getInterface(null);
 		});
 		
@@ -42,7 +42,7 @@ internal class shotodol.http_gateway.HTTPGatewayCommand : M100Command {
 		server = new ConnectionOrientedPacketConveyorBelt(&stack, &laddr);
 		server.registerAllHooks(mod);
 		entry.rebuild_and_set_static_string("onQuit/soft");
-		Plugin.register(&entry, new HookExtension(onQuitHook, mod));
+		PluginManager.register(&entry, new HookExtension(onQuitHook, mod));
 		server.rehashHook(null,null);
 	}
 	int onQuitHook(extring*msg, extring*output) {
