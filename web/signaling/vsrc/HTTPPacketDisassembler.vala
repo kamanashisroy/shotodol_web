@@ -33,7 +33,7 @@ internal class shotodol.web.signaling.HTTPPacketDisassembler : shotodol.signalin
 				}
 				ln.rebuild_and_copy_shallow(input);
 				//ln.skip(i);
-				ln.trim_to_length(i);
+				ln.truncate(i);
 				retlen = i - ln_start;
 				if(ln_start != 0) {
 					ln.shift(ln_start);
@@ -57,7 +57,7 @@ internal class shotodol.web.signaling.HTTPPacketDisassembler : shotodol.signalin
 		for(i = 0;i < url.length();i++) {
 			if(url.char_at(i) == '?') {
 				queryString.rebuild_and_copy_shallow(url);
-				url.trim_to_length(i);
+				url.truncate(i);
 				queryString.shift(i+1);
 				break;
 			}

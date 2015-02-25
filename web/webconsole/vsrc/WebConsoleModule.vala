@@ -104,7 +104,7 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 				}
 				if(!nextIsCommand) {
 					if(harg.is_empty()) {
-						param.setLength(0);
+						param.set_length(0);
 						continue;
 					}
 					if(key == httpRequest.REQUEST_QUERY_KEY) {
