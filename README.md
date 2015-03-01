@@ -77,6 +77,8 @@ Modules
 =========
 
 [http proto](web/http_proto/README.md)
+[gateway](web/http_gateway/README.md)
+[mitigateway](web/http_mitigateway/README.md)
 
 Loadbalancer
 =============
