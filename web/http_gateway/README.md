@@ -6,5 +6,6 @@ This module reads for http requests. It then mediates the the request data to th
 
 Architecture
 ============
-TODO fill me
+
+![httpproto netio](../../docs/diagrams/httpproto_netio.svg)
 
