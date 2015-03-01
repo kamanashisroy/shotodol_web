@@ -73,6 +73,11 @@ There is a [web console](web/webconsole/README.md) on [this page](http://127.0.0
 
 Enjoy !
 
+Modules
+=========
+
+[http proto](web/http_proto/README.md)
+
 Loadbalancer
 =============
 The loadbalancer testing code is at *test/loadbalancer* directory.
