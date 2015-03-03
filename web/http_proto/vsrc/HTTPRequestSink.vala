@@ -38,7 +38,8 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 			bagBuilder = (BagFactory)x.getInterface(null);
 		});
 		if(bagBuilder == null) {
-			print("Could not get bag factory\n");
+			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.ERROR, 0, 80, "No bag factory\n");
+			//print("Could not get bag factory\n");
 			// fatal error
 			core.assert(false);
 			//return -1;
@@ -79,12 +80,12 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 #if false
 		OutputStream xsink = sink.getOutputStream(token);
 		if(xsink == null) {
-			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.ERROR, 0, 0, "No connection found\n");
+			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.ERROR, 0, 80, "No connection found\n");
 			return;
 		}
 #endif
 		extring pkt = extring();
-		pkt.rebuild_in_heap(4096);
+		pkt.rebuild_in_heap(1024<<4);
 		uchar tag = (uchar)((token>>8) & 0x0F);
 		pkt.concat_char(tag);
 		tag = (uchar)(token & 0x0F);
@@ -97,6 +98,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 		pkt.concat_string("\r\n\r\n");
 		// XXX we are coping content here
 		pkt.concat(&status);
+		Watchdog.watchit(core.sourceFileName(), core.sourceLineNo(), 10, Watchdog.WatchdogSeverity.LOG, 0, 80, &dlg);
 		sink.write(&pkt);
 		//sink.write(&status);
 	}

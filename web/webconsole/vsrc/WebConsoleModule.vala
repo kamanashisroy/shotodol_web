@@ -23,7 +23,9 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 	}
 
 	int onCommandPage(extring*msg, extring*output) {
-		output.rebuild_in_heap(1024<<5);
+		output.rebuild_in_heap(1024<<4);
+		if(output.capacity() == 0)
+			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.ERROR, 0, 81, "Out of memory \n");
 		output.concat_string("<html>");
 		output.concat_string("<h1>Commands</h1>");
 		output.concat_string("<ul>");
@@ -73,6 +75,8 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 		//output.concat_string("<frame name=\"shotodolOutput\"></frame>");
 		output.concat_string("</ul>");
 		output.concat_string("</html>");
+		//output.zero_terminate();
+		//print("-----------------------------------------\n%s-----------------------------------------------\n", output.to_string());
 		return 0;
 	}
 

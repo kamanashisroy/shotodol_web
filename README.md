@@ -93,6 +93,11 @@ After loading put command `httpmitigate -child 2` and test the web pages.
 
 The loadbalancer is packed in one module in [web/http_mitigateway](web/http_mitigateway).
 
+Debugging
+==========
+
+The `zw` command prints the http related watchdog output to the screen. It is alias of `watchdog -l 100 -tag 80` . It is recommended to add most of the debug output under 80 to 89 tags. For example, http_proto module tags watchdog output with 80 and webconsole tags with 81.
+
 Tasks
 =====
 

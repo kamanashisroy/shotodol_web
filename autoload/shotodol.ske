@@ -5,10 +5,15 @@ onLoad:
 	fileconf -i ./autoload/shotodol.conf
 	module -load ../shotodol_script/core/script/dynalib.so
 	module -load ../shotodol/apps/instant/dynalib.so
+	module -load ../shotodol/apps/alias/dynalib.so
 	module -load web/signaling/dynalib.so
 	module -load web/http_proto/dynalib.so
 	module -load web/http_gateway/dynalib.so
 	module -load web/webconsole/dynalib.so
 	rehash
+	alias w watchdog -l 100 -tag 80
+	alias w1 watchdog -l 100 -tag 81
+	alias n watchdog -l 100 -tag 100
+	alias n1 watchdog -l 100 -tag 101
 
 
