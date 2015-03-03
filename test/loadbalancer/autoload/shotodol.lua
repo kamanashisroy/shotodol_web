@@ -1,5 +1,5 @@
 
-function rehash() 
+function onLoad() 
 	return "page/index page/example"
 end
 
