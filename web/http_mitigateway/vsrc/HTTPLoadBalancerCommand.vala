@@ -109,7 +109,7 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 		if(down == null)
 			return -1;
 		down.onFork_After(false);
-		sorter.addSink(down.getOutputStream());
+		sorter.addOutputStream(down.getOutputStream());
 		down = null;
 		up.onFork_After(false);
 		if(parentFiber == null) {
