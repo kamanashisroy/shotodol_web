@@ -635,7 +635,7 @@ polygon {
        style="stroke:#000000"
        x="952.90771"
        y="1553.1538"
-       id="tspan3230">output/</tspan><tspan
+       id="tspan3230">outgoing/</tspan><tspan
        sodipodi:role="line"
        style="stroke:#000000"
        x="952.90771"
@@ -667,7 +667,7 @@ polygon {
        style="text-align:end;text-anchor:end;stroke:#000000"
        x="1784.2739"
        y="1554.1252"
-       id="tspan3230-3">input/</tspan><tspan
+       id="tspan3230-3">incoming/</tspan><tspan
        sodipodi:role="line"
        style="text-align:end;text-anchor:end;stroke:#000000"
        x="1784.2739"
@@ -1595,7 +1595,7 @@ polygon {
        y="888.15381"
        x="712.90771"
        style="stroke:#000000"
-       sodipodi:role="line">output/</tspan><tspan
+       sodipodi:role="line">outgoing/</tspan><tspan
        id="tspan27207"
        y="913.15381"
        x="712.90771"
@@ -1622,7 +1622,7 @@ polygon {
        y="909.12524"
        x="1784.2739"
        style="text-align:end;text-anchor:end;stroke:#000000"
-       sodipodi:role="line">input/</tspan><tspan
+       sodipodi:role="line">incoming/</tspan><tspan
        id="tspan27223"
        y="934.12524"
        x="1784.2739"

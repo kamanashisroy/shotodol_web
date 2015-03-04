@@ -85,7 +85,7 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 		server.registerAllHooks(mod);
 		extring entry = extring.set_static_string("onQuit/soft");
 		PluginManager.register(&entry, new HookExtension(onQuitHook, mod));
-		entry.rebuild_and_set_static_string("http/mitigateway/connectionoriented/input/sink");
+		entry.rebuild_and_set_static_string("http/mitigateway/connectionoriented/incoming/sink");
 		PluginManager.register(&entry, new AnyInterfaceExtension(sorter, mod));
 		server.rehashHook(null,null);
 		return 0;
@@ -132,7 +132,7 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 		up.onFork_After(true);
 		// close the listening servers.
 		if(server != null)server.close();
-		extring entry = extring.set_static_string("http/connectionoriented/output/sink");
+		extring entry = extring.set_static_string("http/connectionoriented/outgoing/sink");
 		PluginManager.register(&entry, new AnyInterfaceExtension(up.getOutputStream(), mod));
 		rehashChild();
 		sorter = null;
@@ -142,7 +142,7 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 		OutputStream?lbsink = null;
 		if(parentFiber == null)
 			return 0;
-		extring entry = extring.set_static_string("http/mitigateway/connectionoriented/output/sink");
+		extring entry = extring.set_static_string("http/mitigateway/connectionoriented/outgoing/sink");
 		PluginManager.acceptVisitor(&entry, (x) => {
 			lbsink = (OutputStream)x.getInterface(null);
 		});
@@ -157,7 +157,7 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 			entry.destroy();
 		}
 		OutputStream?hsink = null;
-		extring entry = extring.set_static_string("http/connectionoriented/input/sink");
+		extring entry = extring.set_static_string("http/connectionoriented/incoming/sink");
 		PluginManager.acceptVisitor(&entry, (x) => {
 			hsink = (OutputStream)x.getInterface(null);
 		});

@@ -121,7 +121,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 	}
 	internal int rehashHook(extring*inmsg, extring*outmsg) {
 		sink = null;
-		extring entry = extring.set_static_string("http/connectionoriented/output/sink");
+		extring entry = extring.set_static_string("http/connectionoriented/outgoing/sink");
 		PluginManager.acceptVisitor(&entry, (x) => {
 			sink = (OutputStream)x.getInterface(null);
 		});

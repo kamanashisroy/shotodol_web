@@ -1246,22 +1246,22 @@ polygon {
        id="tspan4515"
        style="stroke:#000000"
        x="242.94232"
-       y="661.5376">1.http/mitigateway/connectionoriented/output/sink</tspan><tspan
+       y="661.5376">1.http/mitigateway/connectionoriented/outgoing/sink</tspan><tspan
        sodipodi:role="line"
        style="stroke:#000000"
        x="242.94232"
        y="686.5376"
-       id="tspan4517">2.http/mitigateway/connectionoriented/input/sink</tspan><tspan
+       id="tspan4517">2.http/mitigateway/connectionoriented/incoming/sink</tspan><tspan
        sodipodi:role="line"
        style="stroke:#000000"
        x="242.94232"
        y="711.5376"
-       id="tspan4519">3.http/connectionoriented/output/sink</tspan><tspan
+       id="tspan4519">3.http/connectionoriented/outgoing/sink</tspan><tspan
        sodipodi:role="line"
        style="stroke:#000000"
        x="242.94232"
        y="736.5376"
-       id="tspan4523">4.http/connectionoriented/input/sink</tspan></text>
+       id="tspan4523">4.http/connectionoriented/incoming/sink</tspan></text>
   <g
      id="g4555"
      transform="translate(-20,-10)"

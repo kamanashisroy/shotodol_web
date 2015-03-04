@@ -614,7 +614,7 @@ polygon {
        style="stroke:#000000"
        x="432.90768"
        y="668.15381"
-       id="tspan3230">output/</tspan><tspan
+       id="tspan3230">outgoing/</tspan><tspan
        sodipodi:role="line"
        style="stroke:#000000"
        x="432.90768"
@@ -641,7 +641,7 @@ polygon {
        style="text-align:end;text-anchor:end;stroke:#000000"
        x="1264.2739"
        y="669.12524"
-       id="tspan3230-3">input/</tspan><tspan
+       id="tspan3230-3">incoming/</tspan><tspan
        sodipodi:role="line"
        style="text-align:end;text-anchor:end;stroke:#000000"
        x="1264.2739"

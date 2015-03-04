@@ -451,22 +451,22 @@
            x="-189.12663"
            style="stroke:#000000"
            id="tspan4515"
-           sodipodi:role="line">1.http/mitigate/connectionoriented/output/sink</tspan><tspan
+           sodipodi:role="line">1.http/mitigate/connectionoriented/outgoing/sink</tspan><tspan
            id="tspan4517"
            y="741.40894"
            x="-189.12663"
            style="stroke:#000000"
-           sodipodi:role="line">2.http/mitigate/connectionoriented/input/sink</tspan><tspan
+           sodipodi:role="line">2.http/mitigate/connectionoriented/incoming/sink</tspan><tspan
            id="tspan4519"
            y="766.40894"
            x="-189.12663"
            style="stroke:#000000"
-           sodipodi:role="line">3.http/connectionoriented/output/sink</tspan><tspan
+           sodipodi:role="line">3.http/connectionoriented/outgoing/sink</tspan><tspan
            id="tspan4523"
            y="791.40894"
            x="-189.12663"
            style="stroke:#000000"
-           sodipodi:role="line">4.http/connectionoriented/input/sink</tspan></text>
+           sodipodi:role="line">4.http/connectionoriented/incoming/sink</tspan></text>
       <g
          style="stroke:#000000"
          transform="translate(-429.2292,-11.523894)"
