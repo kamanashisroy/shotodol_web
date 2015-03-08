@@ -12,11 +12,14 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 	internal Queue<xtring>packets;
 	internal static OutputStream?sink;
 	PacketDisassembler?signalDecoder;
+	int responseCount;
+	int requestCount;
 	public HTTPRequestSink() {
 		packets = Queue<xtring>();
 		closed = false;
 		sink = null;
 		signalDecoder = null;
+		responseCount = requestCount = 0;
 	}
 	~HTTPRequestSink() {
 		sink = null;
@@ -28,8 +31,13 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 		if(pkt == null)
 			return 0;
 
-		if(signalDecoder == null)
+#if HTTP_HEADER_DEBUG
+		print("Getting signal coder\n");
+#endif
+		if(signalDecoder == null) {
+			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.ERROR, 0, 80, "No signal coder found\n");
 			return 0;
+		}
 
 		// do late initialization here ..
 		BagFactory? bagBuilder = null;
@@ -100,6 +108,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 		pkt.concat(&status);
 		Watchdog.watchit(core.sourceFileName(), core.sourceLineNo(), 10, Watchdog.WatchdogSeverity.LOG, 0, 80, &dlg);
 		sink.write(&pkt);
+		responseCount++;
 		//sink.write(&status);
 	}
 
@@ -112,6 +121,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 		int len = buf.length();
 		xtring pkt = new xtring.copy_on_demand(buf);
 		packets.enqueue(pkt);
+		requestCount++;
 		process();
 		return len;
 	}
@@ -130,6 +140,14 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 		PluginManager.acceptVisitor(&entry, (x) => {
 			signalDecoder = (PacketDisassembler)x.getInterface(null);
 		});
+		return 0;
+	}
+	internal int statusHook(extring*msg, extring*outmsg) {
+		if(outmsg == null) /* sanity check */
+			return 0;
+		extring status = extring.stack(128);
+		status.printf("HTTPProto:%d responds sent out of %d requests\n", responseCount, requestCount);
+		outmsg.concat(&status);
 		return 0;
 	}
 }

@@ -5,6 +5,7 @@ onLoad:
 	fileconf -i ./autoload/shotodol.conf
 	module -load ../../../shotodol_script/core/script/dynalib.so
 	module -load ../../../shotodol/apps/alias/dynalib.so
+	module -load ../../web/signaling/dynalib.so
 	module -load ../../web/http_proto/dynalib.so
 	#module -load web/http_gateway/dynalib.so
 	module -load ../../web/http_mitigateway/dynalib.so
