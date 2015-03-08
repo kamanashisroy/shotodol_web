@@ -20,6 +20,7 @@ public class shotodol.web.HTTPModule : shotodol.DynamicModule {
 	public override int init() {
 		HTTPRequestSink sink = new HTTPRequestSink();
 		extring entry = extring.set_static_string("http/connectionoriented/incoming/sink");
+		sink.setName(&entry);
 		PluginManager.register(&entry, new AnyInterfaceExtension(sink, this));
 		entry.rebuild_and_set_static_string("rehash");
 		PluginManager.register(&entry, new HookExtension(sink.rehashHook, this));

@@ -22,6 +22,7 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 	enum Options {
 		CHILD_COUNT = 1,
 	}
+	int childIndex;
 	public HTTPLoadBalancerCommand(HTTPMitigatewayModule?givenMod) {
 		mitikey = extring.set_static_string("httpmitigate");
 		base(&mitikey);
@@ -34,6 +35,7 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 		childFiber = null;
 		parentFiber = null;
 		addOptionString("-child", M100Command.OptionType.INT, Options.CHILD_COUNT, "Number of child process to fork");
+		childIndex = 0;
 	}
 	~HTTPLoadBalancerCommand() {
 		mitikey.destroy();
@@ -87,6 +89,7 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 		PluginManager.register(&entry, new HookExtension(onQuitHook, mod));
 		entry.rebuild_and_set_static_string("http/mitigateway/connectionoriented/incoming/sink");
 		PluginManager.register(&entry, new AnyInterfaceExtension(sorter, mod));
+		sorter.setName(&entry);
 		server.rehashHook(null,null);
 		return 0;
 	}
@@ -97,6 +100,7 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 			return 0;
 		/*if(server == null)
 			return 0;*/
+		childIndex++;
 		down = new ForkStream();
 		down.onFork_Before();
 		up = new ForkStream();
@@ -104,12 +108,27 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 		return 0;
 	}
 	internal int onFork_After_Parent(extring*msg, extring*output) {
+		/* It is forked only if it is for mitigateway, so filter mitikey */
 		if(msg == null || !msg.equals(&mitikey))
 			return 0;
+
+		/* Child Pipe is required */
 		if(down == null)
 			return -1;
+
 		down.onFork_After(false);
-		sorter.addOutputStream(down.getOutputStream());
+
+		// --------------------------------------------
+		// sorter outputs to child --------------------
+		// --------------------------------------------
+		OutputStream os = down.getOutputStream();
+		extring childName = extring.stack(128);
+		childName.printf("Output to child %d", childIndex);
+		os.setName(&childName);
+		sorter.addOutputStream(os);
+		// --------------------------------------------
+
+
 		down = null;
 		up.onFork_After(false);
 		if(parentFiber == null) {
@@ -117,41 +136,82 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 			extring entry = extring.set_static_string("MainFiber");
 			PluginManager.register(&entry, new AnyInterfaceExtension(parentFiber, mod));
 		}
-		parentFiber.pull(up.getInputStream());
+
+
+		// --------------------------------------------
+		// Read/Pull by Composite puller --------------
+		// --------------------------------------------
+		InputStream is = up.getInputStream();
+		childName.printf("Input from child %d", childIndex);
+		is.setName(&childName);
+		parentFiber.pull(is);
+		// --------------------------------------------
+
 		up = null;
 		rehashParent();
 		return 0;
 	}
 	internal int onFork_After_Child(extring*msg, extring*output) {
+		/* It is forked only if it is for mitigateway, so filter mitikey */
 		if(msg == null || !msg.equals(&mitikey))
 			return 0;
+
+		/* Child Pipe is required */
 		if(down == null)
 			return -1;
+
 		isParent = false;
 		down.onFork_After(true);
 		up.onFork_After(true);
 		// close the listening servers.
-		if(server != null)server.close();
+		//if(server != null)server.close(); // XXX should we close it ?
+
+		// --------------------------------------------
+		// Map child output to http output ------------
+		// --------------------------------------------
+		extring childName = extring.stack(128);
+		OutputStream os = up.getOutputStream();
 		extring entry = extring.set_static_string("http/connectionoriented/outgoing/sink");
-		PluginManager.register(&entry, new AnyInterfaceExtension(up.getOutputStream(), mod));
+		childName.printf("Output to parent ");
+		childName.concat(&entry);
+		PluginManager.register(&entry, new AnyInterfaceExtension(os, mod));
+		// --------------------------------------------
+
 		rehashChild();
+		
+		// cleanup sorter, sorter resides in parent not in child
 		sorter = null;
 		return 0;
 	}
 	int rehashParent() {
 		OutputStream?lbsink = null;
-		if(parentFiber == null)
+		if(parentFiber == null) {
 			return 0;
+		}
+		Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.LOG, 0, 80, "Rehashing\n");
 		extring entry = extring.set_static_string("http/mitigateway/connectionoriented/outgoing/sink");
 		PluginManager.acceptVisitor(&entry, (x) => {
 			lbsink = (OutputStream)x.getInterface(null);
 		});
+		if(lbsink == null)
+			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.ERROR, 0, 80, "No outgoing sink found up to browser\n");
 		parentFiber.feed(lbsink);
+		Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.LOG, 0, 80, "Set\n");
 		return 0;
 	}
 	int rehashChild() {
 		if(childFiber == null) { // register a childFiber
-			childFiber = new PullFeedFiber(down.getInputStream(), null);
+			// --------------------------------------------
+			// Read from parent and feed incoming/sink ----
+			// --------------------------------------------
+			InputStream is = down.getInputStream();
+			extring readName = extring.stack(128);
+			readName.printf("Input from parent in child %d", childIndex);
+			is.setName(&readName);
+			childFiber = new PullFeedFiber(is, null);
+			// --------------------------------------------
+
+
 			extring entry = extring.set_static_string("MainFiber");
 			PluginManager.register(&entry, new AnyInterfaceExtension(childFiber, mod));
 			entry.destroy();

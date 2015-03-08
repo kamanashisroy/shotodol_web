@@ -107,6 +107,8 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 		// XXX we are coping content here
 		pkt.concat(&status);
 		Watchdog.watchit(core.sourceFileName(), core.sourceLineNo(), 10, Watchdog.WatchdogSeverity.LOG, 0, 80, &dlg);
+		dlg.printf("Packet-length:%d", pkt.length());
+		Watchdog.watchit(core.sourceFileName(), core.sourceLineNo(), 10, Watchdog.WatchdogSeverity.LOG, 0, 80, &dlg);
 		sink.write(&pkt);
 		responseCount++;
 		//sink.write(&status);
