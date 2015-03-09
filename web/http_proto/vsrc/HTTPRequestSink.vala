@@ -148,7 +148,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 		if(outmsg == null) /* sanity check */
 			return 0;
 		extring status = extring.stack(128);
-		status.printf("HTTPProto:%d responds sent out of %d requests\n", responseCount, requestCount);
+		status.printf("HTTPProto:%d responses sent out of %d requests\n", responseCount, requestCount);
 		outmsg.concat(&status);
 		return 0;
 	}

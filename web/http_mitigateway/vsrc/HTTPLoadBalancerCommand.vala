@@ -133,6 +133,8 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 		up.onFork_After(false);
 		if(parentFiber == null) {
 			parentFiber = new CompositePullSingleFeedFiber();
+			extring parentName = extring.set_static_string("Collect data from children, and send through network\n");
+			parentFiber.setName(&parentName);
 			extring entry = extring.set_static_string("MainFiber");
 			PluginManager.register(&entry, new AnyInterfaceExtension(parentFiber, mod));
 		}
@@ -188,7 +190,7 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 		if(parentFiber == null) {
 			return 0;
 		}
-		Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.LOG, 0, 80, "Rehashing\n");
+		Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.LOG, 0, 80, "Rehashing parent process\n");
 		extring entry = extring.set_static_string("http/mitigateway/connectionoriented/outgoing/sink");
 		PluginManager.acceptVisitor(&entry, (x) => {
 			lbsink = (OutputStream)x.getInterface(null);
