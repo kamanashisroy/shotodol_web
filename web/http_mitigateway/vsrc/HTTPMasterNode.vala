@@ -37,10 +37,13 @@ internal struct shotodol.http_mitigateway.HTTPMasterNode {
 		sorter = null;
 	}
 	internal int onFork_After_Parent(extring*msg, extring*output) {
+		if(!node.isParent)
+			return 0;
 		/* It is forked only if it is for mitigateway, so filter mitikey */
 		if(msg == null || !msg.equals(&node.mitikey))
 			return 0;
 
+		print("-------- Master is checking the fiber\n");
 		// --------------------------------------------
 		// Prepare parent fiber -----------------------
 		// --------------------------------------------
@@ -54,7 +57,7 @@ internal struct shotodol.http_mitigateway.HTTPMasterNode {
 		// --------------------------------------------
 
 
-
+		print("-------- master is preparing pipe\n");
 		// --------------------------------------------
 		// Child output stream is "down" stream -------
 		// --------------------------------------------
@@ -64,6 +67,7 @@ internal struct shotodol.http_mitigateway.HTTPMasterNode {
 			return -1;
 		}
 
+		print("-------- master is name output stream\n");
 		// name it ------------------------------------
 		OutputStream os = node.down.getOutputStream();
 		extring childName = extring.stack(128);
@@ -91,6 +95,7 @@ internal struct shotodol.http_mitigateway.HTTPMasterNode {
 		// cleanup ------------------------------------
 		node.cleanup_pipe();
 		// --------------------------------------------
+		print("-------- master rehashing\n");
 		rehashParent(null);
 		return 0;
 	}

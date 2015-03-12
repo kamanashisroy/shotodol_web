@@ -27,9 +27,9 @@ internal struct shotodol.http_mitigateway.HTTPNode {
 	}
 	internal int onFork_Before(extring*msg, extring*output) {
 		if(msg == null || !msg.equals(&mitikey))
-			return 0;
+			return -1;
 		if(!isParent)
-			return 0;
+			return -1;
 		pindex++;
 		down = new ForkStream();
 		down.onFork_Before();

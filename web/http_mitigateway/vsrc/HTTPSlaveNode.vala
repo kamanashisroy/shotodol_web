@@ -99,4 +99,9 @@ internal struct shotodol.http_mitigateway.HTTPSlaveNode {
 		slaveFiber.feed(hsink);
 		return 0;
 	}
+	internal void destroy() {
+		master.cleanup();
+		slaveFiber.cancel();
+		slaveFiber = null;
+	}
 }

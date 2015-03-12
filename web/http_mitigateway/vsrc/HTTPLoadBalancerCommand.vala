@@ -20,7 +20,7 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 		addOptionString("-child", M100Command.OptionType.INT, Options.CHILD_COUNT, "Number of child process to fork");
 	}
 	~HTTPLoadBalancerCommand() {
-		node.master.cleanup();
+		node.destroy();
 	}
 	public override int act_on(extring*cmdstr, OutputStream pad, M100CommandSet cmds) throws M100CommandError.ActionFailed {
 		ArrayList<xtring> vals = ArrayList<xtring>();
@@ -53,15 +53,18 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 	}
 
 	internal int onFork_Before(extring*arg, extring*output) {
-		return node.master.node.onFork_Before(arg, output);
+		node.master.node.onFork_Before(arg, output);
+		return 0;
 	}
 
 	internal int onFork_After_Parent(extring*arg, extring*output) {
-		return node.master.onFork_After_Parent(arg, output);
+		node.master.onFork_After_Parent(arg, output);
+		return 0;
 	}
 	internal int onFork_After_Child(extring*arg, extring*output) {
 		print("child should do something here\n");
-		return node.onFork_After_Child(arg, output);
+		node.onFork_After_Child(arg, output);
+		return 0;
 	}
 	internal int onRehash(extring*arg, extring*output) {
 		OutputStream?lbsink = null;
