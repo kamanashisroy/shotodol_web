@@ -29,6 +29,8 @@ public class shotodol.http_mitigateway.HTTPMitigatewayModule : DynamicModule {
 		PluginManager.register(&entry, new HookExtension(cmd.onFork_After_Child, this));
 		entry.rebuild_and_set_static_string("rehash");
 		PluginManager.register(&entry, new HookExtension(cmd.onRehash, this));
+		entry.rebuild_and_set_static_string("onQuit/soft");
+		PluginManager.register(&entry, new HookExtension(cmd.onQuit, this));
 		return 0;
 	}
 
