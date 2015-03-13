@@ -26,6 +26,7 @@ internal struct shotodol.http_mitigateway.HTTPMasterNode {
 			print("-------- canceling fiber \n");
 			loadBalancingMasterFiber.cancel();
 			print("-------- done \n");
+			loadBalancingMasterFiber = null;
 		}
 
 		// close the listening servers.
