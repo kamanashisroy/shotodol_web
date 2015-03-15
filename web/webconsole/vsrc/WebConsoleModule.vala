@@ -27,6 +27,14 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 		if(output.capacity() == 0)
 			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.ERROR, 0, 81, "Out of memory \n");
 		output.concat_string("<html>");
+		extring status = extring.set_static_string("status");
+		output.concat_string("<pre>");
+		PluginManager.swarm(&status, null, output);
+		output.concat_string("</pre>");
+		extring forkIndex = extring.set_static_string("fork/index");
+		extring forkIndexVal = extring.stack(64);
+		PluginManager.swarm(&forkIndex, null, &forkIndexVal);
+		
 		output.concat_string("<h1>Commands</h1>");
 		output.concat_string("<ul>");
 		extring entry = extring.set_static_string("command");
@@ -46,6 +54,9 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 			cmd.getOptionsIterator(&it);
 			output.concat_string("<input type=\"submit\" name=\"command\" value=\"");
 			output.concat(&nm);
+			output.concat_string("\"></input>");
+			output.concat_string("<input type=\"hidden\" name=forkIndex value=\"");
+			output.concat(&forkIndexVal);
 			output.concat_string("\"></input>");
 			while(it.next()) {
 			//cmd.acceptOptionsVisitor((opt) => {
