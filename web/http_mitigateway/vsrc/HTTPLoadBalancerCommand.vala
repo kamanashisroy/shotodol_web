@@ -23,6 +23,7 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 		node.destroy();
 	}
 	public override int act_on(extring*cmdstr, OutputStream pad, M100CommandSet cmds) throws M100CommandError.ActionFailed {
+		ConfigEngine?cfg = null;
 		ArrayList<xtring> vals = ArrayList<xtring>();
 		if(parseOptions(cmdstr, &vals) != 0) {
 			throw new M100CommandError.ActionFailed.INVALID_ARGUMENT("Invalid argument");
@@ -38,11 +39,9 @@ internal class shotodol.http_mitigateway.HTTPLoadBalancerCommand : M100Command {
 		int i = 0;
 		extring forkHook = extring.set_static_string("fork");
 		for(i = 0; i < childCount; i++) {
-			PluginManager.swarm(&forkHook, &node.master.node.mitikey, null);
-			if(!node.master.node.isParent)
+			if(PluginManager.swarm(&forkHook, &node.master.node.mitikey, null) <= 0)
 				return 0;
 		}
-		ConfigEngine?cfg = null;
 		extring entry = extring.set_static_string("config/server");
 		PluginManager.acceptVisitor(&entry, (x) => {
 			cfg = (ConfigEngine)x.getInterface(null);
