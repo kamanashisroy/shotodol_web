@@ -12,12 +12,12 @@ using shotodol.http_mitigateway;
 
 internal struct shotodol.http_mitigateway.HTTPMasterNode {
 	public HTTPNode node;
-	RoundRobinPacketSorter sorter;
+	HTTPPacketSorter sorter;
 	ConnectionOrientedPacketConveyorBelt?server;
 	CompositePullSingleFeedFiber?loadBalancingMasterFiber;
 	HTTPMasterNode(HTTPMitigatewayModule?given) {
 		node = HTTPNode(given);
-		sorter = new RoundRobinPacketSorter(4);
+		sorter = new HTTPPacketSorter();
 		server = null;
 		loadBalancingMasterFiber = null;
 	}
