@@ -5,5 +5,5 @@ LIBS+=-lm
 include $(SHOTODOL_NET_HOME)/libs/netio/staticlibs.mk
 include $(SHOTODOL_NET_HOME)/libs/distributedio/staticlibs.mk
 include $(SHOTODOL_NET_HOME)/linux/platform_net/staticlibs.mk
-include $(SHOTODOL_SCRIPT_HOME)/$(PLATFORM)/lua/staticlibs.mk
+#include $(SHOTODOL_SCRIPT_HOME)/$(PLATFORM)/lua/staticlibs.mk
 include $(SHOTODOL_WEB_HOME)/libs/signaling/staticlibs.mk
