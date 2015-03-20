@@ -18,10 +18,10 @@ onLoad:
 	return page/index page/example
 
 exten_page_index:
-	echo <html>Congratulations!, it works.<ul><li><a href="/console">Console</a></li><li><a href="/example">more example</a></li></ul></html>\n
+	echo <html>Congratulations!, it works.<ul><li><a href="/console">Console</a></li><li><a href="/example">more example</a></li></ul></html>
 
 exten_page_example:
-	echo Congratulations!, it works too.\n
+	echo Congratulations!, it works too.
 
 
 
