@@ -21,11 +21,13 @@ public class shotodol.http_mitigateway.HTTPPacketSorter : OutputStream32x {
 		int i = 0;
 		for(i = 2; i < x.length(); i++) 
 		{ 
-		    	if(x.char_at(i) == '&' && x.char_at(i+1) == 'n' && x.char_at(i+2) == '=') 
+		    	if(x.char_at(i) == '&' && x.char_at(i+1) == 'f' && x.char_at(i+2) == 'o' && x.char_at(i+3) == 'r' 
+			&& x.char_at(i+4) == 'k' && x.char_at(i+5) == 'I' && x.char_at(i+6) == 'n' && x.char_at(i+7) == 'd' 
+			&& x.char_at(i+8) == 'e' && x.char_at(i+9) == 'x' && x.char_at(i+10) == '=') 
 			{ 
 				extring line = extring.stack(2);
-				line.concat_char(x.char_at(i+3));
-				line.concat_char(x.char_at(i+4));
+				line.concat_char(x.char_at(i+11));
+				line.concat_char(x.char_at(i+12));
 				int id = line.to_int();				
 				print("---- %d\n",id);
 				if(id >= count)
