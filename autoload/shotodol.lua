@@ -1,5 +1,7 @@
 
 function onLoad() 
+	local msg = "Loading lua script\n"
+	OutputStream.write(msg)
 	return "page/index page/example"
 end
 

@@ -120,10 +120,10 @@ internal class shotodol.web.signaling.HTTPPacketDisassembler : shotodol.signalin
 		extring ln = extring();	
 #if HTTP_HEADER_DEBUG
 		extring pkt_var = extring.set_static_string("Packet");
-		Watchdog.watchvar(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.LOG, 0, 0, &pkt_var, pkt);
+		Watchdog.watchvar(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.Severity.LOG, 0, 0, &pkt_var, pkt);
 		extring dlg = extring.stack(128);
 		dlg.printf("%s,%d,%s", pkt_var.to_string(), pkt.length(), pkt.to_string());
-		Watchdog.watchit(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.LOG, 0, 0, &dlg);
+		Watchdog.watchit(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.Severity.LOG, 0, 0, &dlg);
 #endif
 		bool firstLine = true;
 		while(true) {

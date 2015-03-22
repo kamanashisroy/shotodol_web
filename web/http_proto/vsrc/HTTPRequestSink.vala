@@ -35,7 +35,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 		print("Getting signal coder\n");
 #endif
 		if(signalDecoder == null) {
-			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.ERROR, 0, 80, "No signal coder found\n");
+			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.Severity.ERROR, 0, 80, "No signal coder found\n");
 			return 0;
 		}
 
@@ -46,7 +46,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 			bagBuilder = (BagFactory)x.getInterface(null);
 		});
 		if(bagBuilder == null) {
-			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.ERROR, 0, 80, "No bag factory\n");
+			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.Severity.ERROR, 0, 80, "No bag factory\n");
 			//print("Could not get bag factory\n");
 			// fatal error
 			core.assert(false);
@@ -88,7 +88,7 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 #if false
 		OutputStream xsink = sink.getOutputStream(token);
 		if(xsink == null) {
-			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.ERROR, 0, 80, "No connection found\n");
+			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.Severity.ERROR, 0, 80, "No connection found\n");
 			return;
 		}
 #endif
@@ -106,9 +106,9 @@ internal class shotodol.web.HTTPRequestSink : OutputStream {
 		pkt.concat_string("\r\n\r\n");
 		// XXX we are coping content here
 		pkt.concat(&status);
-		Watchdog.watchit(core.sourceFileName(), core.sourceLineNo(), 10, Watchdog.WatchdogSeverity.LOG, 0, 80, &dlg);
+		Watchdog.watchit(core.sourceFileName(), core.sourceLineNo(), 10, Watchdog.Severity.LOG, 0, 80, &dlg);
 		dlg.printf("Packet-length:%d", pkt.length());
-		Watchdog.watchit(core.sourceFileName(), core.sourceLineNo(), 10, Watchdog.WatchdogSeverity.LOG, 0, 80, &dlg);
+		Watchdog.watchit(core.sourceFileName(), core.sourceLineNo(), 10, Watchdog.Severity.LOG, 0, 80, &dlg);
 		sink.write(&pkt);
 		responseCount++;
 		//sink.write(&status);

@@ -64,7 +64,7 @@ internal struct shotodol.http_mitigateway.HTTPMasterNode {
 		// --------------------------------------------
 		/* Child Pipe is required */
 		if(node.onFork_After_prepare_pipe() != 0) {
-			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.ERROR, 0, 80, "Fork completion error: no down(to child) pipe found\n");
+			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.Severity.ERROR, 0, 80, "Fork completion error: no down(to child) pipe found\n");
 			return -1;
 		}
 
@@ -105,11 +105,11 @@ internal struct shotodol.http_mitigateway.HTTPMasterNode {
 		if(loadBalancingMasterFiber == null) {
 			return 0;
 		}
-		Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.LOG, 0, 80, "Rehashing parent process\n");
+		Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.Severity.LOG, 0, 80, "Rehashing parent process\n");
 		if(lbsink == null)
-			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.ERROR, 0, 80, "No outgoing sink found up to browser\n");
+			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.Severity.ERROR, 0, 80, "No outgoing sink found up to browser\n");
 		loadBalancingMasterFiber.feed(lbsink);
-		Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.LOG, 0, 80, "Set\n");
+		Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.Severity.LOG, 0, 80, "Set\n");
 		return 0;
 	}
 	void setupServer(ConfigEngine?cfg) {

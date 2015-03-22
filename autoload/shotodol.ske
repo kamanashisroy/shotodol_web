@@ -3,7 +3,7 @@
 
 onLoad:
 	fileconf -i ./autoload/shotodol.conf
-	module -load ../shotodol_script/core/script/dynalib.so
+	#module -load ../shotodol_script/core/script/dynalib.so
 	module -load ../shotodol/apps/instant/dynalib.so
 	module -load ../shotodol/apps/alias/dynalib.so
 	module -load web/signaling/dynalib.so
@@ -15,5 +15,16 @@ onLoad:
 	alias w1 watchdog -l 100 -tag 81
 	alias n watchdog -l 100 -tag 100
 	alias n1 watchdog -l 100 -tag 101
+	return page/index page/example
+
+exten_page_index:
+	echo <html>Congratulations!, it works.<ul><li><a href="/console">Console</a></li><li><a href="/example">more example</a></li></ul></html>
+
+exten_page_example:
+	echo Congratulations!, it works too.
+
+
+
+
 
 

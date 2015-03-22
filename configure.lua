@@ -47,8 +47,8 @@ local shotohome = string.gsub(configLines["PROJECT_HOME"],"shotodol_web$","shoto
 configLines["SHOTODOL_HOME"] = prompt("Shotodol path " .. shotohome .. " > ", shotohome)
 local shoto_net_home = string.gsub(configLines["PROJECT_HOME"],"shotodol_web$","shotodol_net")
 configLines["SHOTODOL_NET_HOME"] = prompt("Shotodol net path " .. shoto_net_home .. " > ", shoto_net_home)
-local shoto_script_home = string.gsub(configLines["PROJECT_HOME"],"shotodol_web$","shotodol_script")
-configLines["SHOTODOL_SCRIPT_HOME"] = prompt("Shotodol script path " .. shoto_script_home .. " > ", shoto_script_home)
+-- local shoto_script_home = string.gsub(configLines["PROJECT_HOME"],"shotodol_web$","shotodol_script")
+-- configLines["SHOTODOL_SCRIPT_HOME"] = prompt("Shotodol script path " .. shoto_script_home .. " > ", shoto_script_home)
 configLines["CFLAGS+"] = ""
 configLines["VALAFLAGS+"] = ""
 
@@ -62,10 +62,10 @@ local shotodol_config = infile:read("*a")
 infile:close()
 conf:write(shotodol_config);
 -- import shotodol_script symbols
-infile = assert(io.open(configLines["SHOTODOL_SCRIPT_HOME"] .. "/build/.config.mk", "r"))
-local shotodol_script_config = infile:read("*a")
-infile:close()
-conf:write(shotodol_script_config);
+-- infile = assert(io.open(configLines["SHOTODOL_SCRIPT_HOME"] .. "/build/.config.mk", "r"))
+-- local shotodol_script_config = infile:read("*a")
+-- infile:close()
+-- conf:write(shotodol_script_config);
 
 for x in pairs(configLines) do
 	local op = configOps[x]
