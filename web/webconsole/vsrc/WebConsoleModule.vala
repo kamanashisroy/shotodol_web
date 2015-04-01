@@ -25,7 +25,7 @@ public class shotodol.web.WebConsoleModule : DynamicModule {
 	int onCommandPage(extring*msg, extring*output) {
 		output.rebuild_in_heap(1024<<4);
 		if(output.capacity() == 0)
-			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.WatchdogSeverity.ERROR, 0, 81, "Out of memory \n");
+			Watchdog.watchit_string(core.sourceFileName(), core.sourceLineNo(), 3, Watchdog.Severity.ERROR, 0, 81, "Out of memory \n");
 		output.concat_string("<html>");
 		extring status = extring.set_static_string("status");
 		output.concat_string("<pre>");
