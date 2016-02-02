@@ -67,7 +67,7 @@ internal class shotodol.web.signaling.HTTPPacketDisassembler : shotodol.signalin
 		while(true) {
 			if(queryString.is_empty())
 				break;
-			LineAlign.next_token_delimitered(&queryString, &strtoken, &queryDelimiters);
+			LineExpression.next_token_delimitered(&queryString, &strtoken, &queryDelimiters);
 			if(!strtoken.is_empty() && (strtoken.char_at(0) == '&' || strtoken.char_at(0) == '=')) {
 				strtoken.shift(1);
 				continue;
@@ -89,9 +89,9 @@ internal class shotodol.web.signaling.HTTPPacketDisassembler : shotodol.signalin
 
 	void parseFirstLine(extring*url, Bundler*bndlr, extring*cmd) {
 		extring strtoken = extring();
-		LineAlign.next_token(cmd, &strtoken);
+		LineExpression.next_token(cmd, &strtoken);
 		bndlr.writeEXtring(httpRequest.REQUEST_METHOD, &strtoken);
-		LineAlign.next_token(cmd, &strtoken);
+		LineExpression.next_token(cmd, &strtoken);
 		bndlr.writeEXtring(httpRequest.REQUEST_URL, &strtoken);
 		bndlr.writeEXtring(httpRequest.REQUEST_VERSION, cmd);
 		url.rebuild_in_heap(strtoken.length()+1);
@@ -106,7 +106,7 @@ internal class shotodol.web.signaling.HTTPPacketDisassembler : shotodol.signalin
 	void parseLine(Bundler*bndlr, extring*cmd) {
 		cmd.zero_terminate();
 		extring strtoken = extring();
-		LineAlign.next_token_delimitered(cmd, &strtoken, &colonSign);
+		LineExpression.next_token_delimitered(cmd, &strtoken, &colonSign);
 		if(cmd.char_at(0) == '=') {
 			bndlr.writeEXtring(httpRequest.REQUEST_KEY, &strtoken);
 			bndlr.writeEXtring(httpRequest.REQUEST_VALUE, cmd);

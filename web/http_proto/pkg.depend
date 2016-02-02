@@ -1,4 +1,4 @@
-libs/str_arms
+libs/linterpreter
 core/base
 -SHOTODOL_WEB_HOME
 libs/signaling
